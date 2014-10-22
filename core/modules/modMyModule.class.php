@@ -46,7 +46,7 @@ class modMyModule extends DolibarrModules
 
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero = 100000;
+		$this->numero = 100000; // 104000 to 104999 for ATM CONSULTING
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'mymodule';
 
@@ -270,3 +270,19 @@ class modMyModule extends DolibarrModules
 
 }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Create tables, keys and data required by module
+     * Files llx_table1.sql, llx_table1.key.sql llx_data.sql with create table, create keys
+     * and create data commands must be stored in directory /mymodule/sql/
+     * This function is called by this->init
+     *
+     * 	@return		int		<=0 if KO, >0 if OK
+     */
+    private function loadTables()
+    {
+        return $this->_load_tables('/mymodule/sql/');
+    }
+}
+>>>>>>> f67e8e6f1c1285c9251d677dc5337507767b1451
