@@ -33,7 +33,7 @@ function mymoduleAdminPrepareHead()
     $head = array();
 
     $head[$h][0] = dol_buildpath("/mymodule/admin/mymodule_setup.php", 1);
-    $head[$h][1] = $langs->trans("Settings");
+    $head[$h][1] = $langs->trans("Parameters");
     $head[$h][2] = 'settings';
     $h++;
     $head[$h][0] = dol_buildpath("/mymodule/admin/about.php", 1);

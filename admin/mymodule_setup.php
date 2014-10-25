@@ -97,7 +97,7 @@ dol_fiche_head(
 
 // Setup page goes here
 $form=new Form($db);
-$var=true;
+$var=false;
 print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("Parameters").'</td>'."\n";
