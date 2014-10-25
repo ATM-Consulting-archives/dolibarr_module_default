@@ -1,6 +1,6 @@
 <?php
 /* <one line to give the program's name and a brief idea of what it does.>
- * Copyright (C) 2013 ATM Consulting <support@atm-consulting.fr>
+ * Copyright (C) 2015 ATM Consulting <support@atm-consulting.fr>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,15 +28,10 @@ if (! $res) {
     $res = @include("../../../main.inc.php"); // From "custom" directory
 }
 
-
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 require_once '../lib/mymodule.lib.php';
 
-dol_include_once('/mymodule/lib/php-markdown/markdown.php');
-
-
-//require_once "../class/myclass.class.php";
 // Translations
 $langs->load("mymodule@mymodule");
 
@@ -44,13 +39,6 @@ $langs->load("mymodule@mymodule");
 if (! $user->admin) {
     accessforbidden();
 }
-
-// Parameters
-$action = GETPOST('action', 'alpha');
-
-/*
- * Actions
- */
 
 /*
  * View
@@ -68,23 +56,13 @@ $head = mymoduleAdminPrepareHead();
 dol_fiche_head(
     $head,
     'about',
-    $langs->trans("Module10000Name"),
+    $langs->trans("Module100000Name"),
     0,
     'mymodule@mymodule'
 );
 
 // About page goes here
 echo $langs->trans("MyModuleAboutPage");
-
-echo '<br>';
-
-$buffer = file_get_contents(dol_buildpath('/mymodule/README.md', 0));
-echo Markdown($buffer);
-
-echo '<br>',
-'<a href="' . dol_buildpath('/mymodule/COPYING', 1) . '">',
-'<img src="' . dol_buildpath('/mymodule/img/gplv3.png', 1) . '"/>',
-'</a>';
 
 llxFooter();
 

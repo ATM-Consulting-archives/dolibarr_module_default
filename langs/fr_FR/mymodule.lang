@@ -1,2 +1,5 @@
-ModuleXXXXXXName = Name
-ModuleXXXXXXDesc = Descripion
+Module100000Name = MyModule
+Module100000Desc = MyModule Descripion
+
+MyModuleSetup = Configuration du module MyModule
+MyModuleAbout = A propos du module MyModule
