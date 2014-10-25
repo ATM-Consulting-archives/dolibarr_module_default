@@ -66,7 +66,7 @@ class modMyModule extends DolibarrModules
 		// Name of image file used for this module.
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
-		$this->picto='generic';
+		$this->picto='mymodule@mymodule';
 
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		// for default path (eg: /mymodule/core/xxxxx) (0=disable, 1=enable)
@@ -94,7 +94,7 @@ class modMyModule extends DolibarrModules
 		$this->dirs = array();
 
 		// Config pages. Put here list of php page, stored into mymodule/admin directory, to use to setup module.
-		$this->config_page_url = array("mysetuppage.php@mymodule");
+		$this->config_page_url = array("mymodule_setup.php@mymodule");
 
 		// Dependencies
 		$this->hidden = false;			// A condition to hide module
@@ -103,7 +103,7 @@ class modMyModule extends DolibarrModules
 		$this->conflictwith = array();	// List of modules id this module is in conflict with
 		$this->phpmin = array(5,0);					// Minimum version of PHP required by module
 		$this->need_dolibarr_version = array(3,0);	// Minimum version of Dolibarr required by module
-		$this->langfiles = array("mylangfile@mymodule");
+		$this->langfiles = array("mymodule@mymodule");
 
 		// Constants
 		// List of particular constants to add when module is enabled (key, 'chaine', value, desc, visible, 'current' or 'allentities', deleteonunactive)
