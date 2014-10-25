@@ -2,6 +2,7 @@ default_folder=$(pwd)							# On garde le chemin vers le répertoire contenant l
 cd ..											# On remonte d'un cran
 
 new_module=$1
+new_module_number=$2
 new_module_min=`echo $new_module | tr '[:upper:]' '[:lower:]'`
 
 cp -R $default_folder $new_module_min			# On copie le répertoire default dans le répertoire cible
@@ -17,6 +18,7 @@ do
 	# Renommage des variables dans les fichiers
 	sed -i 's/MyModule/'$new_module'/g' $fic
 	sed -i 's/mymodule/'$new_module_min'/g' $fic
+	sed -i 's/100000/'$new_module_number'/g' $fic
 	
 	# Renommage des fichiers
 	OLDNAME=`echo $fic`
