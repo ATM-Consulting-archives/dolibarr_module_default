@@ -103,7 +103,7 @@ print '<tr class="liste_titre">';
 print '<td>'.$langs->trans("Parameters").'</td>'."\n";
 print '<td align="center" width="20">&nbsp;</td>';
 print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
-
+print '</tr>';
 
 // Example with a yes / no select
 $var=!$var;
