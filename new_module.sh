@@ -29,4 +29,4 @@ done
 
 git init
 
-echo "Nouveau module $new_module préparé. Merci de supprimer le répertoire .git"
+echo "Nouveau module $new_module préparé."
