@@ -188,11 +188,11 @@ class modMyModule extends DolibarrModules
 		// Add here entries to declare new menus
 		//
 		// Example to declare a new Top Menu entry and its Left menu entry:
-		// $this->menu[$r]=array(	'fk_menu'=>0,			                // Put 0 if this is a top menu
+		// $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=mymodule',		// Put 0 if this is a single top menu or keep fk_mainmenu to give an entry on left
 		//							'type'=>'top',			                // This is a Top menu entry
 		//							'titre'=>'MyModule top menu',
 		//							'mainmenu'=>'mymodule',
-		//							'leftmenu'=>'mymodule',
+		//							'leftmenu'=>'mymodule_left',			// This is the name of left menu for the next entries
 		//							'url'=>'/mymodule/pagetop.php',
 		//							'langs'=>'mylangfile@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
@@ -203,11 +203,11 @@ class modMyModule extends DolibarrModules
 		// $r++;
 		//
 		// Example to declare a Left Menu entry into an existing Top menu entry:
-		// $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=xxx',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+		// $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=mymodule,fk_leftmenu=mymodule_left',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 		//							'type'=>'left',			                // This is a Left menu entry
 		//							'titre'=>'MyModule left menu',
-		//							'mainmenu'=>'xxx',
-		//							'leftmenu'=>'mymodule',
+		//							'mainmenu'=>'mymodule',
+		//							'leftmenu'=>'mymodule_left',			// Goes into left menu previously created by the mainmenu
 		//							'url'=>'/mymodule/pagelevel2.php',
 		//							'langs'=>'mylangfile@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 		//							'position'=>100,
