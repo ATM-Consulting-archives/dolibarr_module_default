@@ -8,6 +8,9 @@ MyModuleAbout = A propos du module MyModule
 
 MyModule=MyModule
 
+# MENU
+TopMenuMyModule=MyModule
+
 # STATUS
 MyModuleStatusDraft=Brouillon (à valider)
 MyModuleStatusValidated=Validée (à accepter)
