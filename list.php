@@ -31,13 +31,13 @@ if (empty($reshook))
  * View
  */
 
-llxHeader('',$langs->trans('listMyModule'),'','');
+llxHeader('',$langs->trans('MyModuleList'),'','');
 
 //$type = GETPOST('type');
 //if (empty($user->rights->mymodule->all->read)) $type = 'mine';
 
 // TODO ajouter les champs de son objet que l'on souhaite afficher
-$sql = 'SELECT t.rowid, t.date_cre, t.date_maj, \'\' AS action';
+$sql = 'SELECT t.rowid, t.ref, t.label, t.date_cre, t.date_maj, \'\' AS action';
 
 $sql.= ' FROM '.MAIN_DB_PREFIX.'mymodule t ';
 
@@ -65,15 +65,16 @@ $r->render($PDOdb, $sql, array(
 	,'search' => array(
 		'date_cre' => array('recherche' => 'calendars', 'allow_is_null' => true)
 		,'date_maj' => array('recherche' => 'calendars', 'allow_is_null' => false)
-//		,'label' => array('recherche' => true, 'table' => array('t', 't'), 'field' => array('label', 'description')) // input text de recherche sur plusieurs champs
-//		,'status' => array('recherche' => array(0 => 'Draft', 1 => 'Validate', 2 => 'Closed'), 'to_translate' => true) // select html, la clé = le status de l'objet, 'to_translate' à true si nécessaire
+		,'ref' => array('recherche' => true, 'table' => 't', 'field' => 'ref')
+		,'label' => array('recherche' => true, 'table' => array('t', 't'), 'field' => array('label', 'description')) // input text de recherche sur plusieurs champs
+		,'status' => array('recherche' => TMymodule::$TStatus, 'to_translate' => true) // select html, la clé = le status de l'objet, 'to_translate' à true si nécessaire
 	)
 	,'translate' => array()
 	,'hide' => array(
 		'rowid'
 	)
 	,'liste' => array(
-		'titre' => $langs->trans('ListMyModule')
+		'titre' => $langs->trans('MyModuleList')
 		,'image' => img_picto('','title_generic.png', '', 0)
 		,'picto_precedent' => '<'
 		,'picto_suivant' => '>'
@@ -82,7 +83,9 @@ $r->render($PDOdb, $sql, array(
 		,'picto_search' => img_picto('','search.png', '', 0)
 	)
 	,'title'=>array(
-		'date_cre' => $langs->trans('DateCre')
+		'ref' => $langs->trans('Ref.')
+		,'label' => $langs->trans('Label')
+		,'date_cre' => $langs->trans('DateCre')
 		,'date_maj' => $langs->trans('DateMaj')
 	)
 	,'eval'=>array(
