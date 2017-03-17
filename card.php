@@ -106,7 +106,7 @@ llxHeader('',$title);
 
 if ($action == 'create' && $mode == 'edit')
 {
-	print_fiche_titre($langs->trans("NewMyModule"));
+	load_fiche_titre($langs->trans("NewMyModule"));
 	dol_fiche_head();
 }
 else
@@ -159,6 +159,6 @@ print $TBS->render('tpl/card.tpl.php'
 
 if ($mode == 'edit') echo $formcore->end_form();
 
-$somethingshown = $form->showLinkedObjectBlock($object->generic);
+if ($mode == 'view' && $object->getId()) $somethingshown = $form->showLinkedObjectBlock($object->generic);
 
 llxFooter();

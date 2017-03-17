@@ -78,3 +78,28 @@ function mymodule_prepare_head(TMyModule $object)
 	
 	return $head;
 }
+
+function getFormConfirm(&$PDOdb, &$form, &$object, $action)
+{
+    global $langs,$conf,$user;
+
+    $formconfirm = '';
+
+    if ($action == 'validate' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmValidateMyModule', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ValidateMyModule'), $text, 'confirm_validate', '', 0, 1);
+    }
+    elseif ($action == 'delete' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmDeleteMyModule');
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('DeleteMyModule'), $text, 'confirm_delete', '', 0, 1);
+    }
+    elseif ($action == 'clone' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmCloneMyModule', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('CloneMyModule'), $text, 'confirm_clone', '', 0, 1);
+    }
+
+    return $formconfirm;
+}
