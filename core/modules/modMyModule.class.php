@@ -233,8 +233,24 @@ class modMyModule extends DolibarrModules
 		
 /*
 		$this->menu[$r]=array(	
-			'fk_menu'=>'fk_mainmenu=mymodule',			                // Put 0 if this is a top menu
+			'fk_menu'=>0,			                // Put 0 if this is a top menu
 			'type'=>'top',			                // This is a Top menu entry
+			'titre'=>$langs->trans('TopMenuMyModule'),
+			'mainmenu'=>'mymodule',
+			'leftmenu'=>'',
+			'url'=>'/mymodule/list.php',
+			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+			'position'=>100+$r,
+			'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled.
+			'perms'=>'$user->rights->mymodule->read',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
+			'target'=>'',
+			'user'=>2
+		);
+		$r++;
+
+		$this->menu[$r]=array(
+			'fk_menu'=>'fk_mainmenu=mymodule',			                // Put 0 if this is a top menu
+			'type'=>'left',			                // This is a Top menu entry
 			'titre'=>$langs->trans('TopMenuMyModule'),
 			'mainmenu'=>'mymodule',
 			'leftmenu'=>'mymodule_left',
@@ -253,7 +269,7 @@ class modMyModule extends DolibarrModules
 			'type'=>'left',			                // This is a Left menu entry
 			'titre'=>$langs->trans('LeftMenuMyModuleCreate'),
 			'mainmenu'=>'mymodule',
-			'leftmenu'=>'',
+			'leftmenu'=>'mymodule_left_create',
 			'url'=>'/mymodule/card.php?action=create',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
@@ -270,7 +286,7 @@ class modMyModule extends DolibarrModules
 			'type'=>'left',			                // This is a Left menu entry
 			'titre'=>$langs->trans('LeftMenuMyModuleList'),
 			'mainmenu'=>'mymodule',
-			'leftmenu'=>'',
+			'leftmenu'=>'mymodule_left_list',
 			'url'=>'/mymodule/list.php',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
