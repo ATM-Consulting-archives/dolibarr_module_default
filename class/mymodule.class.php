@@ -275,9 +275,9 @@ class TMyModuleChild extends TObjetStd
 		$this->user = null;
 	}
 	
-	public function load(&$PDOdb, $id)
+	public function load(&$PDOdb, $id, $loadChild=true)
 	{
-		$res = parent::load($PDOdb, $id);
+		$res = parent::load($PDOdb, $id, $loadChild);
 		
 		return $res;
 	}
