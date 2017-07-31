@@ -68,6 +68,9 @@ class modMyModule extends DolibarrModules
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
 		$this->picto='mymodule@mymodule';
+		
+		$this->editor_name = 'ATM Consulting';
+		$this->editor_url = 'https://www.atm-consulting.fr';
 
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		// for default path (eg: /mymodule/core/xxxxx) (0=disable, 1=enable)
