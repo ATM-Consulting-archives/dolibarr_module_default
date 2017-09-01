@@ -45,6 +45,8 @@ class modMyModule extends DolibarrModules
         $this->db = $db;
 
 		$this->editor_name = 'ATM-Consulting';
+		$this->editor_url = 'https://www.atm-consulting.fr';
+		
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
 		$this->numero = 100000; // 104000 to 104999 for ATM CONSULTING
@@ -69,9 +71,6 @@ class modMyModule extends DolibarrModules
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
 		$this->picto='mymodule@mymodule';
 		
-		$this->editor_name = 'ATM Consulting';
-		$this->editor_url = 'https://www.atm-consulting.fr';
-
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		// for default path (eg: /mymodule/core/xxxxx) (0=disable, 1=enable)
 		// for specific path of parts (eg: /mymodule/core/modules/barcode)
