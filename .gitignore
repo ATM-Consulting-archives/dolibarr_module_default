@@ -1,4 +1,5 @@
-.settings/
+.buildpath
 .project
-
+.settings/
 *.log
+/nbproject/private/

@@ -5,3 +5,37 @@ ATMAbout = Ce module a été développé par <a href="http://www.atm-consulting.
 
 MyModuleSetup = Configuration du module MyModule
 MyModuleAbout = A propos du module MyModule
+
+MyModule=MyModule
+
+# MENU
+TopMenuMyModule=MyModule
+
+# STATUS
+MyModuleStatusDraft=Brouillon (à valider)
+MyModuleStatusValidated=Validée (à accepter)
+MyModuleStatusRefused=Refusée (fermée)
+MyModuleStatusAccepted=Acceptée (fermée)
+
+Draft=Brouillon
+Validate=Validé
+Refused=Refusé
+Accepted=Accepté
+
+# LIST
+MyModuleList=Liste MyModule
+NoMyModule=(vide)
+
+# CARD
+NewMyModule=Création MyModule
+MyModuleCard=Fiche MyModule
+
+# CARD TPL
+Save=Enregistrer
+CreateDraft=Créer brouillon
+Cancel=Annuler
+Validate=Valider
+Modify=Modifier
+Reopen=Rouvrir
+ToClone=Cloner
+Delete=Supprimer

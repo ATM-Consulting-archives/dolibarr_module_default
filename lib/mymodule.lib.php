@@ -53,3 +53,53 @@ function mymoduleAdminPrepareHead()
 
     return $head;
 }
+
+/**
+ * Return array of tabs to used on pages for third parties cards.
+ *
+ * @param 	TMyModule	$object		Object company shown
+ * @return 	array				Array of tabs
+ */
+function mymodule_prepare_head(TMyModule $object)
+{
+    global $db, $langs, $conf, $user;
+    $h = 0;
+    $head = array();
+    $head[$h][0] = dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId();
+    $head[$h][1] = $langs->trans("MyModuleCard");
+    $head[$h][2] = 'card';
+    $h++;
+	
+	// Show more tabs from modules
+    // Entries must be declared in modules descriptor with line
+    // $this->tabs = array('entity:+tabname:Title:@mymodule:/mymodule/mypage.php?id=__ID__');   to add new tab
+    // $this->tabs = array('entity:-tabname:Title:@mymodule:/mymodule/mypage.php?id=__ID__');   to remove a tab
+    complete_head_from_modules($conf,$langs,$object,$head,$h,'mymodule');
+	
+	return $head;
+}
+
+function getFormConfirm(&$PDOdb, &$form, &$object, $action)
+{
+    global $langs,$conf,$user;
+
+    $formconfirm = '';
+
+    if ($action == 'validate' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmValidateMyModule', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ValidateMyModule'), $text, 'confirm_validate', '', 0, 1);
+    }
+    elseif ($action == 'delete' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmDeleteMyModule');
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('DeleteMyModule'), $text, 'confirm_delete', '', 0, 1);
+    }
+    elseif ($action == 'clone' && !empty($user->rights->mymodule->write))
+    {
+        $text = $langs->trans('ConfirmCloneMyModule', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('CloneMyModule'), $text, 'confirm_clone', '', 0, 1);
+    }
+
+    return $formconfirm;
+}
