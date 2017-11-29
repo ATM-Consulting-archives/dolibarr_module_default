@@ -79,7 +79,7 @@ function mymodule_prepare_head(TMyModule $object)
 	return $head;
 }
 
-function getFormConfirm(&$PDOdb, &$form, &$object, $action)
+function getFormConfirmMyModule(&$PDOdb, &$form, &$object, $action)
 {
     global $langs,$conf,$user;
 

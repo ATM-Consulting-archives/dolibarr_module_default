@@ -121,7 +121,7 @@ $formcore->Set_typeaff($mode);
 
 $form = new Form($db);
 
-$formconfirm = getFormConfirm($PDOdb, $form, $object, $action);
+$formconfirm = getFormConfirmMyModule($PDOdb, $form, $object, $action);
 if (!empty($formconfirm)) echo $formconfirm;
 
 $TBS=new TTemplateTBS();
