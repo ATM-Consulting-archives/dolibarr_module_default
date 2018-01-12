@@ -103,6 +103,8 @@ class MyModule extends SeedObject
 	
 	public function delete()
 	{
+		global $user;
+		
 		$this->generic->deleteObjectLinked();
 		
 		parent::deleteCommon($user);
@@ -200,8 +202,8 @@ class MyModule extends SeedObject
 	{
 		global $db;
 		
-		$object = new TMyModule($db);
-		$object->load($db, $id, '',false);
+		$object = new MyModule($db);
+		$object->load($id, '',false);
 		
 		return $object->getNomUrl($withpicto);
 	}
