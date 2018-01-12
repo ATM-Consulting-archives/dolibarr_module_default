@@ -10,7 +10,7 @@ if (!class_exists('TObjetStd'))
 }
 
 
-class TMyModule extends TObjetStd
+class MyModule extends SeedObject
 {
 	/**
 	 * Draft status
@@ -35,43 +35,37 @@ class TMyModule extends TObjetStd
 		,self::STATUS_REFUSED => 'Refuse'
 		,self::STATUS_ACCEPTED => 'Accept'
 	);
+	
+	public $table_element = 'mymodule';
 
-
-	public function __construct()
+	public $element = 'mymodule';
+	
+	public function __construct($db)
 	{
-		global $conf,$langs,$db;
+		global $conf,$langs;
 		
-		$this->set_table(MAIN_DB_PREFIX.'mymodule');
+		$this->db = $db;
 		
-		$this->add_champs('ref', array('type' => 'string', 'length' => 80, 'index' => true));
-		$this->add_champs('label', array('type' => 'string'));
-		$this->add_champs('status', array('type' => 'integer'));
+		$this->fields=array(
+				'ref'=>array('type'=>'string','length'=>50,'index'=>true)
+				,'label'=>array('type'=>'string')
+				,'status'=>array('type'=>'integer','index'=>true) // date, integer, string, float, array, text
+				,'entity'=>array('type'=>'integer','index'=>true)
+		);
 		
-		$this->add_champs('entity,fk_user_author', array('type' => 'integer', 'index' => true));
-//		$this->add_champs('date_other,date_other_2', array('type' => 'date'));
-//		$this->add_champs('note', array('type' => 'text'));
-		
-		$this->_init_vars();
-		$this->start();
-		
-//		$this->setChild('TMyModuleChild','fk_mymodule');
-		
-		if (!class_exists('GenericObject')) require_once DOL_DOCUMENT_ROOT.'/core/class/genericobject.class.php';
-		$this->generic = new GenericObject($db);
-		$this->generic->table_element = $this->get_table();
-		$this->generic->element = 'mymodule';
+		$this->init();
 		
 		$this->status = self::STATUS_DRAFT;
 		$this->entity = $conf->entity;
 	}
 
-	public function save(&$PDOdb, $addprov=false)
+	public function save($addprov=false)
 	{
 		global $user;
 		
 		if (!$this->getId()) $this->fk_user_author = $user->id;
 		
-		$res = parent::save($PDOdb);
+		$res = $this->id>0 ? $this->updateCommon($user) : $this->createCommon($user);
 		
 		if ($addprov || !empty($this->is_clone))
 		{
@@ -81,60 +75,60 @@ class TMyModule extends TObjetStd
 			
 			$wc = $this->withChild;
 			$this->withChild = false;
-			$res = parent::save($PDOdb);
+			$res = $this->id>0 ? $this->updateCommon($user) : $this->createCommon($user);
 			$this->withChild = $wc;
 		}
 		
 		return $res;
 	}
 	
-	public function load(&$PDOdb, $id, $loadChild = true)
+	
+	public function loadBy($value, $field, $annexe = false)
+	{
+		$res = parent::loadBy($value, $field, $annexe);
+		
+		return $res;
+	}
+	
+	public function load($id, $ref, $loadChild = true)
 	{
 		global $db;
 		
-		$res = parent::load($PDOdb, $id, $loadChild);
-		
-		$this->generic->id = $this->getId();
-		$this->generic->ref = $this->ref;
+		$res = parent::fetchCommon($id, $ref);
 		
 		if ($loadChild) $this->fetchObjectLinked();
 		
 		return $res;
 	}
 	
-	public function delete(&$PDOdb)
+	public function delete()
 	{
 		$this->generic->deleteObjectLinked();
 		
-		parent::delete($PDOdb);
+		parent::deleteCommon($user);
 	}
 	
-	public function fetchObjectLinked()
-	{
-		$this->generic->fetchObjectLinked($this->getId());
-	}
-
-	public function setDraft(&$PDOdb)
+	public function setDraft()
 	{
 		if ($this->status == self::STATUS_VALIDATED)
 		{
 			$this->status = self::STATUS_DRAFT;
 			$this->withChild = false;
 			
-			return parent::save($PDOdb);
+			return self::save();
 		}
 		
 		return 0;
 	}
 	
-	public function setValid(&$PDOdb)
+	public function setValid()
 	{
 //		global $user;
 		
 		$this->ref = $this->getNumero();
 		$this->status = self::STATUS_VALIDATED;
 		
-		return parent::save($PDOdb);
+		return self::save();
 	}
 	
 	public function getNumero()
@@ -159,24 +153,24 @@ class TMyModule extends TObjetStd
 		return $numero;
 	}
 	
-	public function setRefused(&$PDOdb)
+	public function setRefused()
 	{
 //		global $user;
 		
 		$this->status = self::STATUS_REFUSED;
 		$this->withChild = false;
 		
-		return parent::save($PDOdb);
+		return self::save();
 	}
 	
-	public function setAccepted(&$PDOdb)
+	public function setAccepted()
 	{
 //		global $user;
 		
 		$this->status = self::STATUS_ACCEPTED;
 		$this->withChild = false;
 		
-		return parent::save($PDOdb);
+		return self::save();
 	}
 	
 	public function getNomUrl($withpicto=0, $get_params='')
@@ -204,12 +198,10 @@ class TMyModule extends TObjetStd
 	
 	public static function getStaticNomUrl($id, $withpicto=0)
 	{
-		global $PDOdb;
+		global $db;
 		
-		if (empty($PDOdb)) $PDOdb = new TPDOdb;
-		
-		$object = new TMyModule;
-		$object->load($PDOdb, $id, false);
+		$object = new TMyModule($db);
+		$object->load($db, $id, '',false);
 		
 		return $object->getNomUrl($withpicto);
 	}
@@ -239,55 +231,25 @@ class TMyModule extends TObjetStd
 	
 }
 
-/**
- * Class needed if link exists with dolibarr object from element_element and call from $form->showLinkedObjectBlock()
- */
-class Mymodule extends TMyModule
-{
-	private $PDOdb;
-	
-	public function __construct()
-	{
-		parent::__construct();
-		
-		$this->PDOdb = new TPDOdb;
-	}
-	
-	function fetch($id)
-	{
-		return $this->load($this->PDOdb, $id);
-	}
-}
 
 /*
-class TMyModuleChild extends TObjetStd
+class MyModuleDet extends TObjetStd
 {
-	public function __construct()
+	public $table_element = 'mymoduledet';
+
+	public $element = 'mymoduledet';
+	
+	public function __construct($db)
 	{
-		$this->set_table(MAIN_DB_PREFIX.'mymodule_child');
+		global $conf,$langs;
 		
-		$this->add_champs('fk_mymodule', array('type' => 'integer', 'index' => true));
-//		$this->add_champs('fk_user', array('type' => 'integer', 'index' => true)); // link n_n with user for example
+		$this->db = $db;
 		
-		$this->_init_vars();
-		$this->start();
+		$this->init();
 		
 		$this->user = null;
 	}
 	
-	public function load(&$PDOdb, $id, $loadChild=true)
-	{
-		$res = parent::load($PDOdb, $id, $loadChild);
-		
-		return $res;
-	}
-	
-	public function loadBy(&$PDOdb, $value, $field, $annexe = false)
-	{
-		$res = parent::loadBy($PDOdb, $value, $field, $annexe);
-		
-		return $res;
-	}
 	
 }
 */
