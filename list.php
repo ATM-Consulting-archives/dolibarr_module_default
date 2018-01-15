@@ -50,8 +50,8 @@ $formcore = new TFormCore($_SERVER['PHP_SELF'], 'form_list_mymodule', 'GET');
 
 $nbLine = !empty($user->conf->MAIN_SIZE_LISTE_LIMIT) ? $user->conf->MAIN_SIZE_LISTE_LIMIT : $conf->global->MAIN_SIZE_LISTE_LIMIT;
 
-$r = new TListviewTBS('mymodule');
-echo $r->render($PDOdb, $sql, array(
+$r = new Listview($db, 'mymodule');
+echo $r->render($sql, array(
 	'view_type' => 'list' // default = [list], [raw], [chart]
 	,'limit'=>array(
 		'nbLine' => $nbLine

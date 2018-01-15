@@ -18,11 +18,10 @@ $mode = 'view';
 if (empty($user->rights->mymodule->write)) $mode = 'view'; // Force 'view' mode if can't edit object
 else if ($action == 'create' || $action == 'edit') $mode = 'edit';
 
-$PDOdb = new TPDOdb;
-$object = new TMyModule;
+$object = new MyModule($db);
 
-if (!empty($id)) $object->load($PDOdb, $id);
-elseif (!empty($ref)) $object->loadBy($PDOdb, $ref, 'ref');
+if (!empty($id)) $object->load($id);
+elseif (!empty($ref)) $object->loadBy($ref, 'ref');
 
 $hookmanager->initHooks(array('mymodulecard', 'globalcard'));
 
@@ -59,30 +58,30 @@ if (empty($reshook))
 				break;
 			}
 			
-			$object->save($PDOdb, empty($object->ref));
+			$object->save(empty($object->ref));
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
 			exit;
 			
 			break;
 		case 'confirm_clone':
-			$object->cloneObject($PDOdb);
+			$object->cloneObject();
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
 			exit;
 			break;
 		case 'modif':
-			if (!empty($user->rights->mymodule->write)) $object->setDraft($PDOdb);
+			if (!empty($user->rights->mymodule->write)) $object->setDraft();
 				
 			break;
 		case 'confirm_validate':
-			if (!empty($user->rights->mymodule->write)) $object->setValid($PDOdb);
+			if (!empty($user->rights->mymodule->write)) $object->setValid();
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
 			exit;
 			break;
 		case 'confirm_delete':
-			if (!empty($user->rights->mymodule->write)) $object->delete($PDOdb);
+			if (!empty($user->rights->mymodule->write)) $object->delete();
 			
 			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
 			exit;

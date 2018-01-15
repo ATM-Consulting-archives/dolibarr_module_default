@@ -16,11 +16,6 @@ if(!defined('INC_FROM_DOLIBARR')) {
 
 dol_include_once('/mymodule/class/mymodule.class.php');
 
-$PDOdb=new TPDOdb;
-
-$o=new TMyModule;
-$o->init_db_by_vars($PDOdb);
-
-$o=new TMyModuleChild;
-$o->init_db_by_vars($PDOdb);
+$o=new TMyModule($db);
+$o->init_db_by_vars();
 */
