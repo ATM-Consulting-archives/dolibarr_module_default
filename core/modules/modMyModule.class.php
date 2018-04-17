@@ -333,8 +333,8 @@ class modMyModule extends DolibarrModules
 		
 		define('INC_FROM_DOLIBARR',true);
 
-		dol_include_once('/mymodule/config.php');
-		dol_include_once('/mymodule/script/create-maj-base.php');
+		//dol_include_once('/mymodule/config.php'); // Why ?
+		//include dol_buildpath('/mymodule/script/create-maj-base.php');
 
 		$result=$this->_load_tables('/mymodule/sql/');
 
