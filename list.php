@@ -73,9 +73,9 @@ echo $r->render($sql, array(
 	,'hide' => array(
 		'rowid'
 	)
-	,'liste' => array(
-		'titre' => $langs->trans('MyModuleList')
-		,'image' => img_picto('','title_generic.png', '', 0)
+	,'list' => array(
+		'title' => $langs->trans('MyModuleList')
+		,'image' => 'title_generic.png'
 		,'picto_precedent' => '<'
 		,'picto_suivant' => '>'
 		,'noheader' => 0
