@@ -37,7 +37,7 @@ llxHeader('',$langs->trans('MyModuleList'),'','');
 //if (empty($user->rights->mymodule->all->read)) $type = 'mine';
 
 // TODO ajouter les champs de son objet que l'on souhaite afficher
-$sql = 'SELECT t.rowid, t.ref, t.label, t.date_cre, t.date_maj, \'\' AS action';
+$sql = 'SELECT t.rowid, t.ref, t.label, t.date_creation, t.date_maj, \'\' AS action';
 
 $sql.= ' FROM '.MAIN_DB_PREFIX.'mymodule t ';
 
