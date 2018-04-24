@@ -39,7 +39,7 @@ if (empty($reshook))
 	$error = 0;
 	switch ($action) {
 		case 'save':
-			$object->set_values($_REQUEST); // Set standard attributes
+		    $object->setValues($_REQUEST); // Set standard attributes
 			
 //			$object->date_other = dol_mktime(GETPOST('starthour'), GETPOST('startmin'), 0, GETPOST('startmonth'), GETPOST('startday'), GETPOST('startyear'));
 
