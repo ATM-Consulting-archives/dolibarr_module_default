@@ -1,6 +1,6 @@
 <?php
 
-if (!class_exists('TObjetStd'))
+if (!class_exists('SeedObject'))
 {
 	/**
 	 * Needed if $form->showLinkedObjectBlock() is call
