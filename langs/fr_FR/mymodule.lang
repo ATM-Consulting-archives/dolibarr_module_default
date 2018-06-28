@@ -8,6 +8,11 @@ MyModuleAbout = A propos du module MyModule
 
 MyModule=MyModule
 
+# SETUP
+ParamLabel=Nom du paramètre
+ParamDesc=Une description si besoin
+ParamHelp=Le contenu de l'aide
+
 # MENU
 TopMenuMyModule=MyModule
 
