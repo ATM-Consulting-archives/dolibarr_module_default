@@ -20,7 +20,7 @@ else if ($action == 'create' || $action == 'edit') $mode = 'edit';
 
 $object = new MyModule($db);
 
-if (!empty($id)) $object->load($id);
+if (!empty($id)) $object->load($id, '');
 elseif (!empty($ref)) $object->loadBy($ref, 'ref');
 
 $hookmanager->initHooks(array('mymodulecard', 'globalcard'));
@@ -39,7 +39,7 @@ if (empty($reshook))
 	$error = 0;
 	switch ($action) {
 		case 'save':
-			$object->set_values($_REQUEST); // Set standard attributes
+			$object->setValues($_REQUEST); // Set standard attributes
 			
 //			$object->date_other = dol_mktime(GETPOST('starthour'), GETPOST('startmin'), 0, GETPOST('startmonth'), GETPOST('startday'), GETPOST('startyear'));
 
@@ -60,14 +60,14 @@ if (empty($reshook))
 			
 			$object->save(empty($object->ref));
 			
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
+			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 			
 			break;
 		case 'confirm_clone':
 			$object->cloneObject();
 			
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
+			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 			break;
 		case 'modif':
@@ -77,7 +77,7 @@ if (empty($reshook))
 		case 'confirm_validate':
 			if (!empty($user->rights->mymodule->write)) $object->setValid();
 			
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
+			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 			break;
 		case 'confirm_delete':
@@ -89,7 +89,7 @@ if (empty($reshook))
 		// link from llx_element_element
 		case 'dellink':
 			$object->generic->deleteObjectLinked(null, '', null, '', GETPOST('dellinkid'));
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId());
+			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 			break;
 	}
@@ -139,7 +139,7 @@ print $TBS->render('tpl/card.tpl.php'
 			,'action' => 'save'
 			,'urlcard' => dol_buildpath('/mymodule/card.php', 1)
 			,'urllist' => dol_buildpath('/mymodule/list.php', 1)
-			,'showRef' => ($action == 'create') ? $langs->trans('Draft') : $form->showrefnav($object->generic, 'ref', $linkback, 1, 'ref', 'ref', '')
+			,'showRef' => ($action == 'create') ? $langs->trans('Draft') : $form->showrefnav($object, 'ref', $linkback, 1, 'ref', 'ref', '')
 			,'showLabel' => $formcore->texte('', 'label', $object->label, 80, 255)
 //			,'showNote' => $formcore->zonetexte('', 'note', $object->note, 80, 8)
 			,'showStatus' => $object->getLibStatut(1)
@@ -147,17 +147,17 @@ print $TBS->render('tpl/card.tpl.php'
 		,'langs' => $langs
 		,'user' => $user
 		,'conf' => $conf
-		,'TMyModule' => array(
-			'STATUS_DRAFT' => TMyModule::STATUS_DRAFT
-			,'STATUS_VALIDATED' => TMyModule::STATUS_VALIDATED
-			,'STATUS_REFUSED' => TMyModule::STATUS_REFUSED
-			,'STATUS_ACCEPTED' => TMyModule::STATUS_ACCEPTED
+		,'MyModule' => array(
+			'STATUS_DRAFT' => MyModule::STATUS_DRAFT
+			,'STATUS_VALIDATED' => MyModule::STATUS_VALIDATED
+			,'STATUS_REFUSED' => MyModule::STATUS_REFUSED
+			,'STATUS_ACCEPTED' => MyModule::STATUS_ACCEPTED
 		)
 	)
 );
 
 if ($mode == 'edit') echo $formcore->end_form();
 
-if ($mode == 'view' && $object->getId()) $somethingshown = $form->showLinkedObjectBlock($object->generic);
+if ($mode == 'view' && $object->id) $somethingshown = $form->showLinkedObjectBlock($object);
 
 llxFooter();
