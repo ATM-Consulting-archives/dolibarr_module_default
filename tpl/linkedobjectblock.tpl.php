@@ -52,7 +52,7 @@ foreach($linkedObjectBlock as $key => $objectlink)
 	<td align="center"><?php echo $objectlink->label; ?></td>
 	<td align="center"><?php echo dol_print_date($objectlink->date_maj,'day'); ?></td>
 	<td align="right"><?php echo $objectlink->getLibStatut(0); ?></td>
-	<td align="right"><a href="<?php echo $_SERVER["PHP_SELF"].'?id='.$objectlink->getId().'&action=dellink&dellinkid='.$key; ?>"><?php echo img_delete($langs->transnoentitiesnoconv("RemoveLink")); ?></a></td>
+	<td align="right"><a href="<?php echo $_SERVER["PHP_SELF"].'?id='.$objectlink->id.'&action=dellink&dellinkid='.$key; ?>"><?php echo img_delete($langs->transnoentitiesnoconv("RemoveLink")); ?></a></td>
 </tr>
 <?php
 }

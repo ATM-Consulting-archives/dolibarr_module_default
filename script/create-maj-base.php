@@ -7,7 +7,8 @@ if(!defined('INC_FROM_DOLIBARR')) {
 	define('INC_FROM_CRON_SCRIPT', true);
 
 	require('../config.php');
-
+} else {
+	global $db;
 }
 
 
@@ -16,6 +17,6 @@ if(!defined('INC_FROM_DOLIBARR')) {
 
 dol_include_once('/mymodule/class/mymodule.class.php');
 
-$o=new TMyModule($db);
+$o=new MyModule($db);
 $o->init_db_by_vars();
 */

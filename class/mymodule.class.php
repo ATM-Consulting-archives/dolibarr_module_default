@@ -63,13 +63,13 @@ class MyModule extends SeedObject
 	{
 		global $user;
 		
-		if (!$this->getId()) $this->fk_user_author = $user->id;
+		if (!$this->id) $this->fk_user_author = $user->id;
 		
 		$res = $this->id>0 ? $this->updateCommon($user) : $this->createCommon($user);
 		
 		if ($addprov || !empty($this->is_clone))
 		{
-			$this->ref = '(PROV'.$this->getId().')';
+			$this->ref = '(PROV'.$this->id.')';
 			
 			if (!empty($this->is_clone)) $this->status = self::STATUS_DRAFT;
 			
@@ -101,9 +101,8 @@ class MyModule extends SeedObject
 		return $res;
 	}
 	
-	public function delete()
+	public function delete(User &$user)
 	{
-		global $user;
 		
 		$this->generic->deleteObjectLinked();
 		
@@ -184,7 +183,7 @@ class MyModule extends SeedObject
         if (! empty($this->ref)) $label.= '<br><b>'.$langs->trans('Ref').':</b> '.$this->ref;
         
         $linkclose = '" title="'.dol_escape_htmltag($label, 1).'" class="classfortooltip">';
-        $link = '<a href="'.dol_buildpath('/mymodule/card.php', 1).'?id='.$this->getId(). $get_params .$linkclose;
+        $link = '<a href="'.dol_buildpath('/mymodule/card.php', 1).'?id='.$this->id. $get_params .$linkclose;
        
         $linkend='</a>';
 

@@ -57,15 +57,15 @@ function mymoduleAdminPrepareHead()
 /**
  * Return array of tabs to used on pages for third parties cards.
  *
- * @param 	TMyModule	$object		Object company shown
+ * @param 	MyModule	$object		Object company shown
  * @return 	array				Array of tabs
  */
-function mymodule_prepare_head(TMyModule $object)
+function mymodule_prepare_head(MyModule $object)
 {
     global $db, $langs, $conf, $user;
     $h = 0;
     $head = array();
-    $head[$h][0] = dol_buildpath('/mymodule/card.php', 1).'?id='.$object->getId();
+    $head[$h][0] = dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id;
     $head[$h][1] = $langs->trans("MyModuleCard");
     $head[$h][2] = 'card';
     $h++;
