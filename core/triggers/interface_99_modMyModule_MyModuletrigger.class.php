@@ -98,6 +98,25 @@ class InterfaceMyModuletrigger
             return $langs->trans("Unknown");
         }
     }
+	
+	
+	/**
+	 * Function called when a Dolibarrr business event is done.
+	 * All functions "run_trigger" are triggered if file is inside directory htdocs/core/triggers
+	 *
+	 * @param string $action code
+	 * @param Object $object
+	 * @param User $user user
+	 * @param Translate $langs langs
+	 * @param conf $conf conf
+	 * @return int <0 if KO, 0 if no triggered ran, >0 if OK
+	 */
+	function runTrigger($action, $object, $user, $langs, $conf) {
+		//For 8.0 remove warning
+		$result=$this->run_trigger($action, $object, $user, $langs, $conf);
+		return $result;
+	}	
+		
 
     /**
      * Function called when a Dolibarrr business event is done.
