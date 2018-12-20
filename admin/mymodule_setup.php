@@ -31,6 +31,7 @@ if (! $res) {
 // Libraries
 require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
 require_once '../lib/mymodule.lib.php';
+dol_include_once('abricot/includes/lib/admin.lib.php');
 
 // Translations
 $langs->load("mymodule@mymodule");
@@ -101,22 +102,22 @@ $var=false;
 print '<table class="noborder" width="100%">';
 
 
-_print_title("Parameters");
+setup_print_title("Parameters");
 
 // Example with a yes / no select
-_print_on_off('CONSTNAME', 'ParamLabel' , 'ParamDesc');
+setup_print_on_off('CONSTNAME', 'ParamLabel' , 'ParamDesc');
 
 // Example with imput
-_print_input_form_part('CONSTNAME', 'ParamLabel');
+setup_print_input_form_part('CONSTNAME', 'ParamLabel');
 
 // Example with color
-_print_input_form_part('CONSTNAME', 'ParamLabel', 'ParamDesc', array('type'=>'color'),'input','ParamHelp');
+setup_print_input_form_part('CONSTNAME', 'ParamLabel', 'ParamDesc', array('type'=>'color'),'input','ParamHelp');
 
 // Example with placeholder
-//_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array('placeholder'=>'http://'),'input','ParamHelp');
+//setup_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array('placeholder'=>'http://'),'input','ParamHelp');
 
 // Example with textarea
-//_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array(),'textarea');
+//setup_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array(),'textarea');
 
 
 print '</table>';
@@ -124,94 +125,3 @@ print '</table>';
 llxFooter();
 
 $db->close();
-
-
-
-function _print_title($title="")
-{
-    global $langs;
-    print '<tr class="liste_titre">';
-    print '<td>'.$langs->trans($title).'</td>'."\n";
-    print '<td align="center" width="20">&nbsp;</td>';
-    print '<td align="center" ></td>'."\n";
-    print '</tr>';
-}
-
-function _print_on_off($confkey, $title = false, $desc ='')
-{
-    global $var, $bc, $langs, $conf;
-    $var=!$var;
-    
-    print '<tr '.$bc[$var].'>';
-    print '<td>'.($title?$title:$langs->trans($confkey));
-    if(!empty($desc))
-    {
-        print '<br><small>'.$langs->trans($desc).'</small>';
-    }
-    print '</td>';
-    print '<td align="center" width="20">&nbsp;</td>';
-    print '<td align="center" width="300">';
-    print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-    print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-    print '<input type="hidden" name="action" value="set_'.$confkey.'">';
-    print ajax_constantonoff($confkey);
-    print '</form>';
-    print '</td></tr>';
-}
-
-function _print_input_form_part($confkey, $title = false, $desc ='', $metas = array(), $type='input', $help = false)
-{
-    global $var, $bc, $langs, $conf, $db;
-    $var=!$var;
-    
-    $form=new Form($db);
-    
-    $defaultMetas = array(
-        'name' => $confkey
-    );
-    
-    if($type!='textarea'){
-        $defaultMetas['type']   = 'text';
-        $defaultMetas['value']  = $conf->global->{$confkey};
-    }
-    
-    
-    $metas = array_merge ($defaultMetas, $metas);
-    $metascompil = '';
-    foreach ($metas as $key => $values)
-    {
-        $metascompil .= ' '.$key.'="'.$values.'" ';
-    }
-    
-    print '<tr '.$bc[$var].'>';
-    print '<td>';
-    
-    if(!empty($help)){
-        print $form->textwithtooltip( ($title?$title:$langs->trans($confkey)) , $langs->trans($help),2,1,img_help(1,''));
-    }
-    else {
-        print $title?$title:$langs->trans($confkey);
-    }
-    
-    if(!empty($desc))
-    {
-        print '<br><small>'.$langs->trans($desc).'</small>';
-    }
-    
-    print '</td>';
-    print '<td align="center" width="20">&nbsp;</td>';
-    print '<td align="right" width="300">';
-    print '<form method="POST" action="'.$_SERVER['PHP_SELF'].'">';
-    print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-    print '<input type="hidden" name="action" value="set_'.$confkey.'">';
-    if($type=='textarea'){
-        print '<textarea '.$metascompil.'  >'.dol_htmlentities($conf->global->{$confkey}).'</textarea>';
-    }
-    else {
-        print '<input '.$metascompil.'  />';
-    }
-    
-    print '<input type="submit" class="butAction" value="'.$langs->trans("Modify").'">';
-    print '</form>';
-    print '</td></tr>';
-}
