@@ -102,6 +102,11 @@ $var=false;
 print '<table class="noborder" width="100%">';
 
 
+if(!function_exists('setup_print_title')){
+    print '<div class="error" >'.$langs->trans('AbricotNeedUpdate').' : <a href="http://wiki.atm-consulting.fr/index.php/Accueil#Abricot" target="_blank"><i class="fa fa-info"></i> Wiki</a></div>';
+    exit;
+}
+
 setup_print_title("Parameters");
 
 // Example with a yes / no select

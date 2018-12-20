@@ -7,6 +7,7 @@ MyModuleSetup = Configuration du module MyModule
 MyModuleAbout = A propos du module MyModule
 
 MyModule=MyModule
+AbricotNeedUpdate=Le module abricot doit être mis à jour
 
 # SETUP
 ParamLabel=Nom du paramètre
