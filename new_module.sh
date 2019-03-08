@@ -1,3 +1,5 @@
+#!/bin/bash
+
 default_folder=$(pwd)							# On garde le chemin vers le répertoire contenant le module default
 cd ..											# On remonte d'un cran
 
