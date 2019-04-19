@@ -9,6 +9,10 @@ $langs->load('abricot@abricot');
 $langs->load('mymodule@mymodule');
 
 
+$massaction = GETPOST('massaction', 'alpha');
+$confirmmassaction = GETPOST('confirmmassaction', 'alpha');
+$toselect = GETPOST('toselect', 'array');
+
 $object = new MyModule($db);
 
 $hookmanager->initHooks(array('mymodulelist'));
@@ -20,6 +24,12 @@ $hookmanager->initHooks(array('mymodulelist'));
 $parameters=array();
 $reshook=$hookmanager->executeHooks('doActions',$parameters,$object);    // Note that $action and $object may have been modified by some hooks
 if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
+
+if (!GETPOST('confirmmassaction', 'alpha') && $massaction != 'presend' && $massaction != 'confirm_presend')
+{
+    $massaction = '';
+}
+
 
 if (empty($reshook))
 {
@@ -71,7 +81,7 @@ echo $r->render($sql, array(
 	)
 	,'translate' => array()
 	,'hide' => array(
-		'rowid'
+		'rowid' // important : rowid doit exister dans la query sql pour les checkbox de massaction
 	)
 	,'list' => array(
 		'title' => $langs->trans('MyModuleList')
@@ -81,12 +91,18 @@ echo $r->render($sql, array(
 		,'noheader' => 0
 		,'messageNothing' => $langs->trans('NoMyModule')
 		,'picto_search' => img_picto('','search.png', '', 0)
+        ,'massactions'=>array(
+            'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
+        )
 	)
 	,'title'=>array(
 		'ref' => $langs->trans('Ref.')
 		,'label' => $langs->trans('Label')
 		,'date_creation' => $langs->trans('DateCre')
 		,'tms' => $langs->trans('DateMaj')
+
+
+        ,'selectedfields' => '' // For massaction checkbox
 	)
 	,'eval'=>array(
 		'ref' => '_getObjectNomUrl(\'@val@\')'
