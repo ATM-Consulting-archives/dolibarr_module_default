@@ -54,5 +54,4 @@ $head = mymoduleAdminPrepareHead();
  *  Include of extrafield page
  */
 
-define('loadedFormModuleExtrafieldPage', true);
 require_once dol_buildpath('abricot/tpl/extrafields_setup.tpl.php'); // use this kind of call for variables scope
