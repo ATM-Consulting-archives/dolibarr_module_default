@@ -92,7 +92,7 @@ dol_fiche_head(
     $head,
     'settings',
     $langs->trans("Module100000Name"),
-    0,
+    -1,
     "mymodule@mymodule"
 );
 
@@ -126,6 +126,8 @@ setup_print_input_form_part('CONSTNAME', 'ParamLabel', 'ParamDesc', array('type'
 
 
 print '</table>';
+
+dol_fiche_end(-1);
 
 llxFooter();
 
