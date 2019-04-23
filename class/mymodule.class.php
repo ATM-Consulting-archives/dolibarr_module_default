@@ -39,6 +39,8 @@ class MyModule extends SeedObject
 	public $table_element = 'mymodule';
 
 	public $element = 'mymodule';
+
+    public $isextrafieldmanaged = 1; // enable extrafields
 	
 	public function __construct($db)
 	{
