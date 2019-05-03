@@ -161,3 +161,4 @@ if ($mode == 'edit') echo $formcore->end_form();
 if ($mode == 'view' && $object->id) $somethingshown = $form->showLinkedObjectBlock($object);
 
 llxFooter();
+$db->close();
