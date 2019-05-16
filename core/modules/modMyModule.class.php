@@ -247,7 +247,7 @@ class modMyModule extends DolibarrModules
 			'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled.
 			'perms'=>'$user->rights->mymodule->read',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
 			'target'=>'',
-			'user'=>2
+			'user'=>0
 		);
 		$r++;
 
@@ -263,7 +263,7 @@ class modMyModule extends DolibarrModules
 			'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled.
 			'perms'=>'$user->rights->mymodule->read',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
 			'target'=>'',
-			'user'=>2
+			'user'=>0
 		);
 		$r++;
 		
@@ -279,7 +279,7 @@ class modMyModule extends DolibarrModules
 			'enabled'=> '$conf->mymodule->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
 			'perms'=> '$user->rights->mymodule->write',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
 			'target'=>'',
-			'user'=>2
+			'user'=>0
 		);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
 		
@@ -296,7 +296,7 @@ class modMyModule extends DolibarrModules
 			'enabled'=> '$conf->mymodule->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
 			'perms'=> '$user->rights->mymodule->write',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
 			'target'=>'',
-			'user'=>2
+			'user'=>0
 		);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
 */
