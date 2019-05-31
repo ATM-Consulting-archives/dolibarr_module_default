@@ -87,7 +87,7 @@ class MyModule extends SeedObject
 	
 	public function loadBy($value, $field, $annexe = false)
 	{
-		$res = parent::loadBy($value, $field, $annexe);
+		$res = parent::fetchBy($value, $field, $annexe);
 		
 		return $res;
 	}
