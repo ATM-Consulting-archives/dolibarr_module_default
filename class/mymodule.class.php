@@ -41,6 +41,11 @@ class MyModule extends SeedObject
 	public $element = 'mymodule';
 
     public $isextrafieldmanaged = 1; // enable extrafields
+	public $ismultientitymanaged = 1; // enable multicompany
+
+	public $status;
+
+	public $entity;
 	
 	public function __construct($db)
 	{
