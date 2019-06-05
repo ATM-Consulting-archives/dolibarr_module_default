@@ -62,14 +62,13 @@ if (empty($reshook))
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
-			
-			break;
+
 		case 'confirm_clone':
 			$object->cloneObject();
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
-			break;
+
 		case 'modif':
 			if (!empty($user->rights->mymodule->write)) $object->setDraft();
 				
@@ -79,19 +78,19 @@ if (empty($reshook))
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
-			break;
+
 		case 'confirm_delete':
 			if (!empty($user->rights->mymodule->write)) $object->delete();
 			
 			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
 			exit;
-			break;
+
 		// link from llx_element_element
 		case 'dellink':
-			$object->generic->deleteObjectLinked(null, '', null, '', GETPOST('dellinkid'));
+			$object->deleteObjectLinked(null, '', null, '', GETPOST('dellinkid'));
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
-			break;
+
 	}
 }
 

@@ -41,6 +41,11 @@ class MyModule extends SeedObject
 	public $element = 'mymodule';
 
     public $isextrafieldmanaged = 1; // enable extrafields
+	public $ismultientitymanaged = 1; // enable multicompany
+
+	public $status;
+
+	public $entity;
 	
 	public function __construct($db)
 	{
@@ -87,7 +92,7 @@ class MyModule extends SeedObject
 	
 	public function loadBy($value, $field, $annexe = false)
 	{
-		$res = parent::loadBy($value, $field, $annexe);
+		$res = parent::fetchBy($value, $field, $annexe);
 		
 		return $res;
 	}
@@ -105,9 +110,8 @@ class MyModule extends SeedObject
 	
 	public function delete(User &$user)
 	{
-		
-		$this->generic->deleteObjectLinked();
-		
+		$this->deleteObjectLinked();
+
 		parent::deleteCommon($user);
 	}
 	
