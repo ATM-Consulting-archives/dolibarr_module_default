@@ -63,7 +63,7 @@ $nbLine = !empty($user->conf->MAIN_SIZE_LISTE_LIMIT) ? $user->conf->MAIN_SIZE_LI
 $r = new Listview($db, 'mymodule');
 echo $r->render($sql, array(
 	'view_type' => 'list' // default = [list], [raw], [chart]
-    ,'allow-fields-select' => true,
+    ,'allow-fields-select' => true
 	,'limit'=>array(
 		'nbLine' => $nbLine
 	)
