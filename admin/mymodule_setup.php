@@ -34,7 +34,7 @@ require_once '../lib/mymodule.lib.php';
 dol_include_once('abricot/includes/lib/admin.lib.php');
 
 // Translations
-$langs->load("mymodule@mymodule");
+$langs->loadLangs(array("mymodule@mymodule", "admin", "other"));
 
 // Access control
 if (! $user->admin) {
@@ -110,19 +110,19 @@ if(!function_exists('setup_print_title')){
 setup_print_title("Parameters");
 
 // Example with a yes / no select
-setup_print_on_off('CONSTNAME', 'ParamLabel' , 'ParamDesc');
+setup_print_on_off('CONSTNAME', $langs->trans('ParamLabel'), 'ParamDesc');
 
 // Example with imput
-setup_print_input_form_part('CONSTNAME', 'ParamLabel');
+setup_print_input_form_part('CONSTNAME', $langs->trans('ParamLabel'));
 
 // Example with color
-setup_print_input_form_part('CONSTNAME', 'ParamLabel', 'ParamDesc', array('type'=>'color'),'input','ParamHelp');
+setup_print_input_form_part('CONSTNAME', $langs->trans('ParamLabel'), 'ParamDesc', array('type'=>'color'),'input','ParamHelp');
 
 // Example with placeholder
-//setup_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array('placeholder'=>'http://'),'input','ParamHelp');
+//setup_print_input_form_part('CONSTNAME',$langs->trans('ParamLabel'),'ParamDesc',array('placeholder'=>'http://'),'input','ParamHelp');
 
 // Example with textarea
-//setup_print_input_form_part('CONSTNAME','ParamLabel','ParamDesc',array(),'textarea');
+//setup_print_input_form_part('CONSTNAME',$langs->trans('ParamLabel'),'ParamDesc',array(),'textarea');
 
 
 print '</table>';

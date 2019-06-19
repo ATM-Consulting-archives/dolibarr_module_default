@@ -36,13 +36,13 @@ function mymoduleAdminPrepareHead()
     $head[$h][1] = $langs->trans("Parameters");
     $head[$h][2] = 'settings';
     $h++;
-    $head[$h][0] = dol_buildpath("/mymodule/admin/mymodule_about.php", 1);
-    $head[$h][1] = $langs->trans("About");
-    $head[$h][2] = 'about';
-    $h++;
     $head[$h][0] = dol_buildpath("/mymodule/admin/mymodule_extrafields.php", 1);
     $head[$h][1] = $langs->trans("ExtraFields");
     $head[$h][2] = 'extrafields';
+    $h++;
+    $head[$h][0] = dol_buildpath("/mymodule/admin/mymodule_about.php", 1);
+    $head[$h][1] = $langs->trans("About");
+    $head[$h][2] = 'about';
     $h++;
 
     // Show more tabs from modules
@@ -66,7 +66,7 @@ function mymoduleAdminPrepareHead()
  */
 function mymodule_prepare_head(MyModule $object)
 {
-    global $db, $langs, $conf, $user;
+    global $langs, $conf;
     $h = 0;
     $head = array();
     $head[$h][0] = dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id;
@@ -78,31 +78,57 @@ function mymodule_prepare_head(MyModule $object)
     // Entries must be declared in modules descriptor with line
     // $this->tabs = array('entity:+tabname:Title:@mymodule:/mymodule/mypage.php?id=__ID__');   to add new tab
     // $this->tabs = array('entity:-tabname:Title:@mymodule:/mymodule/mypage.php?id=__ID__');   to remove a tab
-    complete_head_from_modules($conf,$langs,$object,$head,$h,'mymodule');
+    complete_head_from_modules($conf, $langs, $object, $head, $h, 'mymodule');
 	
 	return $head;
 }
 
-function getFormConfirmMyModule(&$PDOdb, &$form, &$object, $action)
+/**
+ * @param Form      $form       Form object
+ * @param MyModule  $object     MyModule object
+ * @param string    $action     Triggered action
+ * @return string
+ */
+function getFormConfirmMyModule($form, $object, $action)
 {
-    global $langs,$conf,$user;
+    global $langs, $user;
 
     $formconfirm = '';
 
-    if ($action == 'validate' && !empty($user->rights->mymodule->write))
+    if ($action === 'valid' && !empty($user->rights->mymodule->write))
     {
-        $text = $langs->trans('ConfirmValidateMyModule', $object->ref);
-        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ValidateMyModule'), $text, 'confirm_validate', '', 0, 1);
+        $body = $langs->trans('ConfirmValidateMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmValidateMyModuleTitle'), $body, 'confirm_validate', '', 0, 1);
     }
-    elseif ($action == 'delete' && !empty($user->rights->mymodule->write))
+    elseif ($action === 'accept' && !empty($user->rights->mymodule->write))
     {
-        $text = $langs->trans('ConfirmDeleteMyModule');
-        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('DeleteMyModule'), $text, 'confirm_delete', '', 0, 1);
+        $body = $langs->trans('ConfirmAcceptMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmAcceptMyModuleTitle'), $body, 'confirm_accept', '', 0, 1);
     }
-    elseif ($action == 'clone' && !empty($user->rights->mymodule->write))
+    elseif ($action === 'refuse' && !empty($user->rights->mymodule->write))
     {
-        $text = $langs->trans('ConfirmCloneMyModule', $object->ref);
-        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('CloneMyModule'), $text, 'confirm_clone', '', 0, 1);
+        $body = $langs->trans('ConfirmRefuseMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmRefuseMyModuleTitle'), $body, 'confirm_refuse', '', 0, 1);
+    }
+    elseif ($action === 'reopen' && !empty($user->rights->mymodule->write))
+    {
+        $body = $langs->trans('ConfirmReopenMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmReopenMyModuleTitle'), $body, 'confirm_refuse', '', 0, 1);
+    }
+    elseif ($action === 'delete' && !empty($user->rights->mymodule->write))
+    {
+        $body = $langs->trans('ConfirmDeleteMyModuleBody');
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmDeleteMyModuleTitle'), $body, 'confirm_delete', '', 0, 1);
+    }
+    elseif ($action === 'clone' && !empty($user->rights->mymodule->write))
+    {
+        $body = $langs->trans('ConfirmCloneMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmCloneMyModuleTitle'), $body, 'confirm_clone', '', 0, 1);
+    }
+    elseif ($action === 'cancel' && !empty($user->rights->mymodule->write))
+    {
+        $body = $langs->trans('ConfirmCancelMyModuleBody', $object->ref);
+        $formconfirm = $form->formconfirm($_SERVER['PHP_SELF'] . '?id=' . $object->id, $langs->trans('ConfirmCancelMyModuleTitle'), $body, 'confirm_cancel', '', 0, 1);
     }
 
     return $formconfirm;

@@ -19,8 +19,7 @@ $backtopage = GETPOST('backtopage', 'alpha');
 
 $object = new MyModule($db);
 
-if (!empty($id)) $object->load($id, '');
-elseif (!empty($ref)) $object->loadBy($ref, 'ref');
+if (!empty($id) || !empty($ref)) $object->fetch($id, true, $ref);
 
 $hookmanager->initHooks(array('mymodulecard', 'globalcard'));
 
@@ -74,7 +73,7 @@ if (empty($reshook))
 //			}
 			
 			// ...
-			
+
 			if ($error > 0)
 			{
 				$action = 'edit';
@@ -93,7 +92,31 @@ if (empty($reshook))
                 header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
                 exit;
             }
+        case 'update_extras':
 
+            $object->oldcopy = dol_clone($object);
+
+            // Fill array 'array_options' with data from update form
+            $ret = $extrafields->setOptionalsFromPost($extralabels, $object, GETPOST('attribute', 'none'));
+            if ($ret < 0) $error++;
+
+            if (! $error)
+            {
+                $result = $object->insertExtraFields('MYMODULE_MODIFY');
+                if ($result < 0)
+                {
+                    setEventMessages($object->error, $object->errors, 'errors');
+                    $error++;
+                }
+            }
+
+            if ($error) $action = 'edit_extras';
+            else
+            {
+                header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+                exit;
+            }
+            break;
 		case 'confirm_clone':
 			$object->cloneObject();
 			
@@ -101,6 +124,7 @@ if (empty($reshook))
 			exit;
 
 		case 'modif':
+		case 'reopen':
 			if (!empty($user->rights->mymodule->write)) $object->setDraft();
 				
 			break;
@@ -111,7 +135,7 @@ if (empty($reshook))
 			exit;
 
 		case 'confirm_delete':
-			if (!empty($user->rights->mymodule->write)) $object->delete();
+			if (!empty($user->rights->mymodule->delete)) $object->delete();
 			
 			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
 			exit;
@@ -250,11 +274,9 @@ else
 
             print '<div class="clearboth"></div><br />';
 
-            dol_fiche_end(-1);
-
             print '<div class="tabsAction">'."\n";
             $parameters=array();
-            $reshook=$hookmanager->executeHooks('addMoreActionsButtons',$parameters,$object,$action);    // Note that $action and $object may have been modified by hook
+            $reshook = $hookmanager->executeHooks('addMoreActionsButtons', $parameters, $object, $action);    // Note that $action and $object may have been modified by hook
             if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
 
             if (empty($reshook))
@@ -275,10 +297,17 @@ else
 
                     // Valid
                     if ($object->status === MyModule::STATUS_DRAFT) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=valid">'.$langs->trans('MyModuleValid').'</a></div>'."\n";
+
+                    // Accept
+                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=accept">'.$langs->trans('MyModuleAccept').'</a></div>'."\n";
+                    // Refuse
+                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=refuse">'.$langs->trans('MyModuleRefuse').'</a></div>'."\n";
+
+
                     // Reopen
-                    if ($object->status === MyModule::STATUS_ACCEPTED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=reopen">'.$langs->trans('MyModuleReopen').'</a></div>'."\n";
+                    if ($object->status === MyModule::STATUS_ACCEPTED || $object->status === MyModule::STATUS_REFUSED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=reopen">'.$langs->trans('MyModuleReopen').'</a></div>'."\n";
                     // Cancel
-                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=canceled">'.$langs->trans("MyModuleCancel").'</a></div>'."\n";
+                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=cancel">'.$langs->trans("MyModuleCancel").'</a></div>'."\n";
                 }
                 else
                 {
@@ -292,8 +321,14 @@ else
 
                     // Valid
                     if ($object->status === MyModule::STATUS_DRAFT) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NotEnoughPermissions")).'">'.$langs->trans('MyModuleValid').'</a></div>'."\n";
+
+                    // Accept
+                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#">'.$langs->trans('MyModuleAccept').'</a></div>'."\n";
+                    // Refuse
+                    if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#">'.$langs->trans('MyModuleRefuse').'</a></div>'."\n";
+
                     // Reopen
-                    if ($object->status === MyModule::STATUS_ACCEPTED) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NotEnoughPermissions")).'">'.$langs->trans('MyModuleReopen').'</a></div>'."\n";
+                    if ($object->status === MyModule::STATUS_ACCEPTED || $object->status === MyModule::STATUS_REFUSED) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NotEnoughPermissions")).'">'.$langs->trans('MyModuleReopen').'</a></div>'."\n";
                     // Cancel
                     if ($object->status === MyModule::STATUS_VALIDATED) print '<div class="inline-block divButAction"><a class="butActionRefused" href="#" title="'.dol_escape_htmltag($langs->trans("NotEnoughPermissions")).'">'.$langs->trans("MyModuleCancel").'</a></div>'."\n";
                 }
@@ -310,8 +345,8 @@ else
             print '</div>'."\n";
 
             print '<div class="fichecenter"><div class="fichehalfleft">';
-            //$linktoelem = $form->showLinkToObjectBlock($object, null, array($object->element));
-            //$somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
+            $linktoelem = $form->showLinkToObjectBlock($object, null, array($object->element));
+            $somethingshown = $form->showLinkedObjectBlock($object, $linktoelem);
 
             print '</div><div class="fichehalfright"><div class="ficheaddleft">';
 
@@ -321,6 +356,8 @@ else
             $somethingshown = $formactions->showactions($object, $object->element, $socid, 1);
 
             print '</div></div></div>';
+
+            dol_fiche_end(-1);
         }
     }
 }

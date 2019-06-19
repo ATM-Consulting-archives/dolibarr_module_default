@@ -33,13 +33,13 @@ class MyModule extends SeedObject
 	 */
 	const STATUS_ACCEPTED = 4;
 
-	/** @var array $TStatus Array of transalte key for each const */
+	/** @var array $TStatus Array of translate key for each const */
 	public static $TStatus = array(
-		self::STATUS_DRAFT => 'Cancel'
-		,self::STATUS_DRAFT => 'Draft'
-		,self::STATUS_VALIDATED => 'Active' // Validate
-//		,self::STATUS_REFUSED => 'Refuse'
-//		,self::STATUS_ACCEPTED => 'Accept'
+		self::STATUS_CANCELED => 'MyModuleStatusCanceledShort'
+		,self::STATUS_DRAFT => 'MyModuleStatusDraftShort'
+		,self::STATUS_VALIDATED => 'MyModuleStatusValidatedShort'
+//		,self::STATUS_REFUSED => 'MyModuleStatusRefusedShort'
+//		,self::STATUS_ACCEPTED => 'MyModuleStatusAcceptedShort'
 	);
 
 	/** @var string $table_element Table name in SQL */
@@ -58,8 +58,8 @@ class MyModule extends SeedObject
     public $fields = array(
 		'ref'           =>array('type'=>'varchar(50)',  'length'=>50, 'label'=>'Ref','enabled'=>1, 'visible'=>1,  'notnull'=>1, 'showoncombobox'=>1, 'index'=>1, 'position'=>10, 'searchall'=>1, 'comment'=>'Reference of object'),
 	    'entity'        =>array('type'=>'integer',      'label'=>'Entity',           'enabled'=>1, 'visible'=>0,  'default'=>1, 'notnull'=>1,  'index'=>1, 'position'=>20),
-	    'status'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>1000, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Canceled')),
-	    'label'         =>array('type'=>'varchar(255)', 'label'=>'Label',            'enabled'=>1, 'visible'=>1,  'position'=>30,  'searchall'=>1, 'css'=>'minwidth200', 'help'=>'Help text', 'showoncombobox'=>1),
+	    'status'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>0,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>30, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Canceled')),
+	    'label'         =>array('type'=>'varchar(255)', 'label'=>'Label',            'enabled'=>1, 'visible'=>1,  'position'=>40,  'searchall'=>1, 'css'=>'minwidth200', 'help'=>'Help text', 'showoncombobox'=>1),
 		'fk_soc' 		=>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'ThirdParty', 'visible'=>1, 'enabled'=>1, 'position'=>50, 'notnull'=>-1, 'index'=>1, 'help'=>'LinkToThirparty'),
 		'description'   =>array('type'=>'text',			'label'=>'Description',		 'enabled'=>1, 'visible'=>0,  'position'=>60),
 		//'fk_user_valid' =>array('type'=>'integer',      'label'=>'UserValidation',        'enabled'=>1, 'visible'=>-1, 'position'=>512),

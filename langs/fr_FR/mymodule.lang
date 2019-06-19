@@ -18,15 +18,17 @@ ParamHelp=Le contenu de l'aide
 TopMenuMyModule=MyModule
 
 # STATUS
+MyModuleStatusCanceled=Abandonnée (fermée)
 MyModuleStatusDraft=Brouillon (à valider)
 MyModuleStatusValidated=Validée (à accepter)
 MyModuleStatusRefused=Refusée (fermée)
 MyModuleStatusAccepted=Acceptée (fermée)
 
-Draft=Brouillon
-Validate=Validé
-Refused=Refusé
-Accepted=Accepté
+MyModuleStatusCanceledShort=Abandonnée
+MyModuleStatusDraftShort=Brouillon
+MyModuleStatusValidatedShort=Validée
+MyModuleStatusRefusedShort=Refusée
+MyModuleStatusAcceptedShort=Acceptée
 
 # LIST
 MyModuleList=Liste MyModule
@@ -36,12 +38,11 @@ NoMyModule=(vide)
 NewMyModule=Création MyModule
 MyModuleCard=Fiche MyModule
 
-# CARD TPL
-Save=Enregistrer
-CreateDraft=Créer brouillon
-Cancel=Annuler
-Validate=Valider
-Modify=Modifier
-Reopen=Rouvrir
-ToClone=Cloner
-Delete=Supprimer
+MyModuleModify=Modifier
+MyModuleClone=Cloner
+MyModuleValid=Valider
+MyModuleAccept=Accepter
+MyModuleRefuse=Refuser
+MyModuleReopen=Rouvrir
+MyModuleCancel=Abandonner
+MyModuleDelete=Supprimer
