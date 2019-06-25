@@ -132,7 +132,7 @@ echo $r->render($sql, array(
 
 	)
 	,'eval'=>array(
-		'ref' => '_getObjectNomUrl(\'@val@\')'
+		'ref' => '_getObjectNomUrl(\'@rowid@\', \'@val@\')'
 //		,'fk_user' => '_getUserNomUrl(@val@)' // Si on a un fk_user dans notre requête
 	)
 ));
@@ -154,7 +154,7 @@ function _getObjectNomUrl($ref)
 	global $db;
 
 	$o = new MyModule($db);
-	$res = $o->fetch('', false, $ref);
+	$res = $o->fetch($id, false, $ref);
 	if ($res > 0)
 	{
 		return $o->getNomUrl(1);

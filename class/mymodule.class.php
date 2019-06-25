@@ -60,7 +60,7 @@ class MyModule extends SeedObject
 	    'entity'        =>array('type'=>'integer',      'label'=>'Entity',           'enabled'=>1, 'visible'=>0,  'default'=>1, 'notnull'=>1,  'index'=>1, 'position'=>20),
 	    'status'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>0,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>30, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Canceled')),
 	    'label'         =>array('type'=>'varchar(255)', 'label'=>'Label',            'enabled'=>1, 'visible'=>1,  'position'=>40,  'searchall'=>1, 'css'=>'minwidth200', 'help'=>'Help text', 'showoncombobox'=>1),
-		'fk_soc' 		=>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'ThirdParty', 'visible'=>1, 'enabled'=>1, 'position'=>50, 'notnull'=>-1, 'index'=>1, 'help'=>'LinkToThirparty'),
+		'fk_soc' 		=>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'ThirdParty', 'visible'=>1, 'enabled'=>1, 'position'=>50, 'index'=>1, 'help'=>'LinkToThirparty'),
 		'description'   =>array('type'=>'text',			'label'=>'Description',		 'enabled'=>1, 'visible'=>0,  'position'=>60),
 		//'fk_user_valid' =>array('type'=>'integer',      'label'=>'UserValidation',        'enabled'=>1, 'visible'=>-1, 'position'=>512),
 		'import_key'    =>array('type'=>'varchar(14)',  'label'=>'ImportId',         'enabled'=>1, 'visible'=>-2, 'notnull'=>-1, 'index'=>0,  'position'=>1000),
@@ -110,6 +110,17 @@ class MyModule extends SeedObject
 
         return $this->create($user);
     }
+
+
+    /**
+     * @see cloneObject
+     * @return void
+     */
+    public function clearUniqueFields()
+    {
+        $this->ref = 'Copy of '.$this->ref;
+    }
+
 
     /**
      * @param User $user User object

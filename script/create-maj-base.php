@@ -6,7 +6,7 @@
 if(!defined('INC_FROM_DOLIBARR')) {
 	define('INC_FROM_CRON_SCRIPT', true);
 
-	require('../config.php');
+	require '../config.php';
 } else {
 	global $db;
 }
