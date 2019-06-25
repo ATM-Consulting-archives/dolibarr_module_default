@@ -149,7 +149,7 @@ $db->close();
 /**
  * TODO remove if unused
  */
-function _getObjectNomUrl($ref)
+function _getObjectNomUrl($id, $ref)
 {
 	global $db;
 
