@@ -17,6 +17,12 @@ $object = new MyModule($db);
 
 $hookmanager->initHooks(array('mymodulelist'));
 
+if ($object->isextrafieldmanaged)
+{
+    $extrafields = new ExtraFields($db);
+    $extralabels = $extrafields->fetch_name_optionals_label($object->table_element);
+}
+
 /*
  * Actions
  */
@@ -47,14 +53,36 @@ llxHeader('',$langs->trans('MyModuleList'),'','');
 //if (empty($user->rights->mymodule->all->read)) $type = 'mine';
 
 // TODO ajouter les champs de son objet que l'on souhaite afficher
-$sql = 'SELECT t.rowid, t.ref, t.label, t.date_creation, t.tms, \'\' AS action';
+$keys = array_keys($object->fields);
+$fieldList = 't.'.implode(', t.', $keys);
+if (!empty($object->isextrafieldmanaged))
+{
+    $keys = array_keys($extralabels);
+    $fieldList.= ', et.'.implode(', et.', $keys);
+}
+
+$sql = 'SELECT '.$fieldList;
+
+// Add fields from hooks
+$parameters=array('sql' => $sql);
+$reshook=$hookmanager->executeHooks('printFieldListSelect', $parameters, $object);    // Note that $action and $object may have been modified by hook
+$sql.=$hookmanager->resPrint;
 
 $sql.= ' FROM '.MAIN_DB_PREFIX.'mymodule t ';
+
+if (!empty($object->isextrafieldmanaged))
+{
+    $sql.= ' LEFT JOIN '.MAIN_DB_PREFIX.'mymodule_extrafields et ON (et.fk_object = t.rowid)';
+}
 
 $sql.= ' WHERE 1=1';
 //$sql.= ' AND t.entity IN ('.getEntity('MyModule', 1).')';
 //if ($type == 'mine') $sql.= ' AND t.fk_user = '.$user->id;
 
+// Add where from hooks
+$parameters=array('sql' => $sql);
+$reshook=$hookmanager->executeHooks('printFieldListWhere', $parameters, $object);    // Note that $action and $object may have been modified by hook
+$sql.=$hookmanager->resPrint;
 
 $formcore = new TFormCore($_SERVER['PHP_SELF'], 'form_list_mymodule', 'GET');
 
@@ -67,6 +95,18 @@ echo $r->render($sql, array(
 	,'limit'=>array(
 		'nbLine' => $nbLine
 	)
+    ,'list' => array(
+        'title' => $langs->trans('MyModuleList')
+        ,'image' => 'title_generic.png'
+        ,'picto_precedent' => '<'
+        ,'picto_suivant' => '>'
+        ,'noheader' => 0
+        ,'messageNothing' => $langs->trans('NoMyModule')
+        ,'picto_search' => img_picto('', 'search.png', '', 0)
+        ,'massactions'=>array(
+            'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
+        )
+    )
 	,'subQuery' => array()
 	,'link' => array()
 	,'type' => array(
@@ -84,26 +124,12 @@ echo $r->render($sql, array(
 	,'hide' => array(
 		'rowid' // important : rowid doit exister dans la query sql pour les checkbox de massaction
 	)
-	,'list' => array(
-		'title' => $langs->trans('MyModuleList')
-		,'image' => 'title_generic.png'
-		,'picto_precedent' => '<'
-		,'picto_suivant' => '>'
-		,'noheader' => 0
-		,'messageNothing' => $langs->trans('NoMyModule')
-		,'picto_search' => img_picto('','search.png', '', 0)
-        ,'massactions'=>array(
-            'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
-        )
-	)
 	,'title'=>array(
 		'ref' => $langs->trans('Ref.')
 		,'label' => $langs->trans('Label')
 		,'date_creation' => $langs->trans('DateCre')
 		,'tms' => $langs->trans('DateMaj')
 
-
-        ,'selectedfields' => '' // For massaction checkbox
 	)
 	,'eval'=>array(
 		'ref' => '_getObjectNomUrl(\'@val@\')'
@@ -118,6 +144,7 @@ print $hookmanager->resPrint;
 $formcore->end_form();
 
 llxFooter('');
+$db->close();
 
 /**
  * TODO remove if unused
@@ -127,7 +154,7 @@ function _getObjectNomUrl($ref)
 	global $db;
 
 	$o = new MyModule($db);
-	$res = $o->load('', $ref);
+	$res = $o->fetch('', false, $ref);
 	if ($res > 0)
 	{
 		return $o->getNomUrl(1);

@@ -118,24 +118,24 @@ if (empty($reshook))
             }
             break;
 		case 'confirm_clone':
-			$object->cloneObject();
+			$object->cloneObject($user);
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'modif':
 		case 'reopen':
-			if (!empty($user->rights->mymodule->write)) $object->setDraft();
+			if (!empty($user->rights->mymodule->write)) $object->setDraft($user);
 				
 			break;
 		case 'confirm_validate':
-			if (!empty($user->rights->mymodule->write)) $object->setValid();
+			if (!empty($user->rights->mymodule->write)) $object->setValid($user);
 			
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'confirm_delete':
-			if (!empty($user->rights->mymodule->delete)) $object->delete();
+			if (!empty($user->rights->mymodule->delete)) $object->delete($user);
 			
 			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
 			exit;
