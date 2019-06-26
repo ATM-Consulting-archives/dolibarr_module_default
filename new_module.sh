@@ -1,44 +1,59 @@
 #!/bin/bash
 
-default_folder=$(pwd)							# On garde le chemin vers le répertoire contenant le module default
+if [[ $# < 2 ]]
+then
+    echo "Ce script nécessite 2 paramètres : [NAME_CAMEL_CASE] [NUMBER]"
+    exit 1
+fi
+
+
+DEFAULT_FOLDER=$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd ) # On garde le chemin vers le répertoire contenant le module default
 cd ..											# On remonte d'un cran
 
-new_module=$1
-new_module_number=$2
-new_module_min=`echo $new_module | tr '[:upper:]' '[:lower:]'`
-new_module_ucfirst="$(tr '[:lower:]' '[:upper:]' <<< ${new_module_min:0:1})${new_module_min:1}"
+MODULE_CLASS_NAME=$1
+MODULE_NUMBER=$2
 
-cp -R $default_folder $new_module_min			# On copie le répertoire default dans le répertoire cible
-cd $new_module_min								# On se place dans le répertoire cible
+MODULE_NAME_MIN=$(echo ${MODULE_CLASS_NAME} | tr [:upper:] [:lower:])
+MODULE_NAME_UCFIRST="$(echo ${MODULE_NAME_MIN:0:1} | tr [:lower:] [:upper:])${MODULE_NAME_MIN:1}"
 
-rm -rf .git
-rm -rf .settings
-rm -rf nbproject
-rm .project
-rm new_module.sh
+echo "Nom du module   : ${MODULE_NAME_MIN}"
+echo "Nom de la class : ${MODULE_CLASS_NAME}"
+echo "Numéro          : ${MODULE_NUMBER}"
+echo "-------------------------"
+read -p "Confirmer (Y/n): " CONFIRM
 
-for fic in `find . -iname "*MyModule*" `
-do
-	# Renommage des variables dans les fichiers
-	sed -i 's/MyModule/'$new_module'/g' $fic
-	sed -i 's/Mymodule/'$new_module_ucfirst'/g' $fic
-	sed -i 's/mymodule/'$new_module_min'/g' $fic
-	sed -i 's/100000/'$new_module_number'/g' $fic
-	
-	# Renommage des fichiers
-	OLDNAME=`echo $fic`
-	NEWNAME=`echo $fic | sed 's/MyModule/'$new_module'/g'`
-	NEWNAME=`echo $NEWNAME | sed 's/mymodule/'$new_module_min'/g'`
-	mv $OLDNAME $NEWNAME
-done
+if [[ -z ${CONFIRM} ]] || [[ ${CONFIRM} =~ ^y|Y(es|ES)?$ ]]
+then
+    cp -R ${DEFAULT_FOLDER} ${MODULE_NAME_MIN}			# On copie le répertoire default dans le répertoire cible
+    cd ${MODULE_NAME_MIN}								# On se place dans le répertoire cible
 
-for fic in list.php card.php ./tpl/card.tpl.php ./tpl/linkedobjectblock.tpl.php ./script/create-maj-base.php
-do
-    sed -i 's/MyModule/'$new_module'/g' $fic
-    sed -i 's/Mymodule/'$new_module_ucfirst'/g' $fic
-    sed -i 's/mymodule/'$new_module_min'/g' $fic
-done
+    rm -rf .git
+    rm new_module.sh
+    [[ -d .settings ]] && rm -rf .settings
+    [[ -d nbproject ]] && rm -rf nbproject
+    [[ -f .project ]] && rm .project
 
-git init
+    # Renommage des fichiers (insensible à la casse)
+    for FILENAME in $(find . -iname "*MyModule*")
+    do
+        NEW_FILENAME=$(echo ${FILENAME} | sed "s/MyModule/${MODULE_CLASS_NAME}/g" | sed "s/mymodule/${MODULE_NAME_MIN}/g")
+        mv ${FILENAME} ${NEW_FILENAME}
+    done
 
-echo "Nouveau module $new_module préparé."
+    CURRENT_YEAR=$(date +%Y)
+    # Renommage des variables dans les fichiers
+    for FILENAME in $(find . -type f)
+    do
+        sed -i "s/MyModule/${MODULE_CLASS_NAME}/g" ${FILENAME}
+        sed -i "s/Mymodule/${MODULE_NAME_UCFIRST}/g" ${FILENAME}
+        sed -i "s/mymodule/${MODULE_NAME_MIN}/g" ${FILENAME}
+        sed -i "s/100000/${MODULE_NUMBER}/g" ${FILENAME}
+        sed -i "s/Copyright (C) 2019/Copyright (C) ${CURRENT_YEAR}/g" ${FILENAME}
+    done
+
+    git init
+
+    echo "Nouveau module ${MODULE_CLASS_NAME} préparé et n'oublie jamais : ** Ce que je sais, c’est que je ne sais rien ** Socrate"
+fi
+
+exit 0
