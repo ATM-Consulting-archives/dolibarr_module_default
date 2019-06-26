@@ -36,7 +36,7 @@ class modMyModule extends DolibarrModules
 	 *
 	 *   @param      DoliDB		$db      Database handler
 	 */
-	function __construct($db)
+	public function __construct($db)
 	{
         global $langs,$conf;
 
@@ -55,7 +55,7 @@ class modMyModule extends DolibarrModules
 		// It is used to group modules in module setup page
 		$this->family = "ATM";
 		// Module label (no space allowed), used if translation string 'ModuleXXXName' not found (where XXX is value of numeric property 'numero' of module)
-		$this->name = preg_replace('/^mod/i','',get_class($this));
+		$this->name = preg_replace('/^mod/i', '', get_class($this));
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
 		$this->description = "Description of module MyModule";
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or version
@@ -240,7 +240,7 @@ class modMyModule extends DolibarrModules
 		// $r++;
 		
 /*
-		$this->menu[$r]=array(	
+		$this->menu[$r]=array(
 			'fk_menu'=>0,			                // Put 0 if this is a top menu
 			'type'=>'top',			                // This is a Top menu entry
 			'titre'=>$langs->trans('TopMenuMyModule'),
@@ -271,7 +271,7 @@ class modMyModule extends DolibarrModules
 			'user'=>0
 		);
 		$r++;
-		
+
 		$this->menu[$r]=array(
 			'fk_menu'=>'fk_mainmenu=mymodule,fk_leftmenu=mymodule_left',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'left',			                // This is a Left menu entry
@@ -287,7 +287,7 @@ class modMyModule extends DolibarrModules
 			'user'=>0
 		);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
-		
+
 
 		$this->menu[$r]=array(
 			'fk_menu'=>'fk_mainmenu=mymodule,fk_leftmenu=mymodule_left',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
@@ -332,11 +332,11 @@ class modMyModule extends DolibarrModules
      *      @param      string	$options    Options when enabling module ('', 'noboxes')
 	 *      @return     int             	1 if OK, 0 if KO
 	 */
-	function init($options='')
+	public function init($options = '')
 	{
 		$sql = array();
 		
-		define('INC_FROM_DOLIBARR',true);
+		define('INC_FROM_DOLIBARR', true);
 
 		require dol_buildpath('/mymodule/script/create-maj-base.php');
 
@@ -353,11 +353,11 @@ class modMyModule extends DolibarrModules
      *      @param      string	$options    Options when enabling module ('', 'noboxes')
 	 *      @return     int             	1 if OK, 0 if KO
 	 */
-	function remove($options='')
-	{
+    public function remove($options = '')
+    {
 		$sql = array();
 
 		return $this->_remove($sql, $options);
-	}
+    }
 
 }

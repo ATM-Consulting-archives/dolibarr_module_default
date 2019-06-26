@@ -18,8 +18,8 @@
 require 'config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
-dol_include_once('/mymodule/class/mymodule.class.php');
-dol_include_once('/mymodule/lib/mymodule.lib.php');
+dol_include_once('mymodule/class/mymodule.class.php');
+dol_include_once('mymodule/lib/mymodule.lib.php');
 
 if(empty($user->rights->mymodule->read)) accessforbidden();
 
@@ -170,12 +170,12 @@ if (empty($reshook))
  */
 $form = new Form($db);
 
-$title=$langs->trans("MyModule");
+$title=$langs->trans('MyModule');
 llxHeader('', $title);
 
 if ($action == 'create')
 {
-    print load_fiche_titre($langs->trans("NewMyModule"), '', 'mymodule@mymodule');
+    print load_fiche_titre($langs->trans('NewMyModule'), '', 'mymodule@mymodule');
 
     print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
     print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
@@ -197,9 +197,9 @@ if ($action == 'create')
     dol_fiche_end();
 
     print '<div class="center">';
-    print '<input type="submit" class="button" name="add" value="'.dol_escape_htmltag($langs->trans("Create")).'">';
+    print '<input type="submit" class="button" name="add" value="'.dol_escape_htmltag($langs->trans('Create')).'">';
     print '&nbsp; ';
-    print '<input type="'.($backtopage?"submit":"button").'" class="button" name="cancel" value="'.dol_escape_htmltag($langs->trans("Cancel")).'"'.($backtopage?'':' onclick="javascript:history.go(-1)"').'>';	// Cancel for create does not post form if we don't know the backtopage
+    print '<input type="'.($backtopage?"submit":"button").'" class="button" name="cancel" value="'.dol_escape_htmltag($langs->trans('Cancel')).'"'.($backtopage?'':' onclick="javascript:history.go(-1)"').'>';	// Cancel for create does not post form if we don't know the backtopage
     print '</div>';
 
     print '</form>';
@@ -208,8 +208,8 @@ else
 {
     if (empty($object->id))
     {
-        $langs->load("errors");
-        print $langs->trans("ErrorRecordNotFound");
+        $langs->load('errors');
+        print $langs->trans('ErrorRecordNotFound');
     }
     else
     {
@@ -223,7 +223,7 @@ else
 
             $head = mymodule_prepare_head($object);
             $picto = 'mymodule@mymodule';
-            dol_fiche_head($head, 'card', $langs->trans("MyModule"), 0, $picto);
+            dol_fiche_head($head, 'card', $langs->trans('MyModule'), 0, $picto);
 
             print '<table class="border centpercent">'."\n";
 
@@ -237,8 +237,8 @@ else
 
             dol_fiche_end();
 
-            print '<div class="center"><input type="submit" class="button" name="save" value="'.$langs->trans("Save").'">';
-            print ' &nbsp; <input type="submit" class="button" name="cancel" value="'.$langs->trans("Cancel").'">';
+            print '<div class="center"><input type="submit" class="button" name="save" value="'.$langs->trans('Save').'">';
+            print ' &nbsp; <input type="submit" class="button" name="cancel" value="'.$langs->trans('Cancel').'">';
             print '</div>';
 
             print '</form>';
@@ -247,13 +247,13 @@ else
         {
             $head = mymodule_prepare_head($object);
             $picto = 'mymodule@mymodule';
-            dol_fiche_head($head, 'card', $langs->trans("MyModule"), -1, $picto);
+            dol_fiche_head($head, 'card', $langs->trans('MyModule'), -1, $picto);
 
             $formconfirm = getFormConfirmMyModule($form, $object, $action);
             if (!empty($formconfirm)) print $formconfirm;
 
 
-            $linkback = '<a href="' .dol_buildpath('/mymodule/list.php',1) . '?restore_lastsearch_values=1">' . $langs->trans("BackToList") . '</a>';
+            $linkback = '<a href="' .dol_buildpath('/mymodule/list.php', 1) . '?restore_lastsearch_values=1">' . $langs->trans('BackToList') . '</a>';
 
             $morehtmlref='<div class="refidno">';
             /*

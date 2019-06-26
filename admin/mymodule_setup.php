@@ -22,18 +22,18 @@
  * 				Put some comments here
  */
 // Dolibarr environment
-$res = @include("../../main.inc.php"); // From htdocs directory
+$res = @include '../../main.inc.php'; // From htdocs directory
 if (! $res) {
-    $res = @include("../../../main.inc.php"); // From "custom" directory
+    $res = @include '../../../main.inc.php'; // From "custom" directory
 }
 
 // Libraries
-require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
+require_once DOL_DOCUMENT_ROOT . '/core/lib/admin.lib.php';
 require_once '../lib/mymodule.lib.php';
 dol_include_once('abricot/includes/lib/admin.lib.php');
 
 // Translations
-$langs->loadLangs(array("mymodule@mymodule", "admin", "other"));
+$langs->loadLangs(array('mymodule@mymodule', 'admin', 'other'));
 
 // Access control
 if (! $user->admin) {
@@ -46,7 +46,7 @@ $action = GETPOST('action', 'alpha');
 /*
  * Actions
  */
-if (preg_match('/set_(.*)/',$action,$reg))
+if (preg_match('/set_(.*)/', $action, $reg))
 {
 	$code=$reg[1];
 	if (dolibarr_set_const($db, $code, GETPOST($code), 'chaine', 0, '', $conf->entity) > 0)
@@ -60,7 +60,7 @@ if (preg_match('/set_(.*)/',$action,$reg))
 	}
 }
 	
-if (preg_match('/del_(.*)/',$action,$reg))
+if (preg_match('/del_(.*)/', $action, $reg))
 {
 	$code=$reg[1];
 	if (dolibarr_del_const($db, $code, 0) > 0)
@@ -115,7 +115,7 @@ setup_print_on_off('CONSTNAME', $langs->trans('ParamLabel'), 'ParamDesc');
 setup_print_input_form_part('CONSTNAME', $langs->trans('ParamLabel'));
 
 // Example with color
-setup_print_input_form_part('CONSTNAME', $langs->trans('ParamLabel'), 'ParamDesc', array('type'=>'color'),'input','ParamHelp');
+setup_print_input_form_part('CONSTNAME', $langs->trans('ParamLabel'), 'ParamDesc', array('type'=>'color'), 'input', 'ParamHelp');
 
 // Example with placeholder
 //setup_print_input_form_part('CONSTNAME',$langs->trans('ParamLabel'),'ParamDesc',array('placeholder'=>'http://'),'input','ParamHelp');

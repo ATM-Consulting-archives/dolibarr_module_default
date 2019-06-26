@@ -21,9 +21,9 @@
  *		\brief      Page to setup extra fields of mymodule
  */
 
-$res = @include("../../main.inc.php"); // From htdocs directory
+$res = @include '../../main.inc.php'; // From htdocs directory
 if (! $res) {
-    $res = @include("../../../main.inc.php"); // From "custom" directory
+    $res = @include '../../../main.inc.php'; // From "custom" directory
 }
 
 
@@ -32,15 +32,15 @@ if (! $res) {
  */
 require_once '../lib/mymodule.lib.php';
 require_once '../class/mymodule.class.php';
-$langs->loadLangs(array("mymodule@mymodule", "admin", "other"));
+$langs->loadLangs(array('mymodule@mymodule', 'admin', 'other'));
 
 $mymodule = new MyModule($db);
 $elementtype=$mymodule->table_element;  //Must be the $table_element of the class that manage extrafield
 
 // Page title and texts elements
-$textobject=$langs->transnoentitiesnoconv("MyModule");
+$textobject=$langs->transnoentitiesnoconv('MyModule');
 $help_url='EN:Help MyModule|FR:Aide MyModule';
-$pageTitle = $langs->trans("MyModuleExtrafieldPage");
+$pageTitle = $langs->trans('MyModuleExtrafieldPage');
 
 // Configuration header
 $head = mymoduleAdminPrepareHead();

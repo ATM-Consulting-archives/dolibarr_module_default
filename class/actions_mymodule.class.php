@@ -27,6 +27,11 @@
  */
 class ActionsMyModule
 {
+    /**
+     * @var DoliDb		Database handler (result of a new DoliDB)
+     */
+    public $db;
+
 	/**
 	 * @var array Hook results. Propagated to $hookmanager->resArray for later reuse
 	 */
@@ -44,6 +49,7 @@ class ActionsMyModule
 
 	/**
 	 * Constructor
+     * @param DoliDB    $db    Database connector
 	 */
 	public function __construct($db)
 	{
@@ -54,12 +60,12 @@ class ActionsMyModule
 	 * Overloading the doActions function : replacing the parent's function with the one below
 	 *
 	 * @param   array()         $parameters     Hook metadatas (context, etc...)
-	 * @param   CommonObject    &$object        The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
-	 * @param   string          &$action        Current action (if set). Generally create or edit or null
+	 * @param   CommonObject    $object        The object to process (an invoice if you are in invoice module, a propale in propale's module, etc...)
+	 * @param   string          $action        Current action (if set). Generally create or edit or null
 	 * @param   HookManager     $hookmanager    Hook manager propagated to allow calling another hook
 	 * @return  int                             < 0 on error, 0 on success, 1 to replace standard code
 	 */
-	function doActions($parameters, &$object, &$action, $hookmanager)
+	public function doActions($parameters, &$object, &$action, $hookmanager)
 	{
 		$error = 0; // Error counter
 		$myvalue = 'test'; // A result value

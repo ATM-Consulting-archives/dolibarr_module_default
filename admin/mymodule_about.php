@@ -22,17 +22,17 @@
  * 				Put some comments here
  */
 // Dolibarr environment
-$res = @include("../../main.inc.php"); // From htdocs directory
+$res = @include '../../main.inc.php'; // From htdocs directory
 if (! $res) {
-    $res = @include("../../../main.inc.php"); // From "custom" directory
+    $res = @include '../../../main.inc.php'; // From "custom" directory
 }
 
 // Libraries
-require_once DOL_DOCUMENT_ROOT . "/core/lib/admin.lib.php";
+require_once DOL_DOCUMENT_ROOT . '/core/lib/admin.lib.php';
 require_once '../lib/mymodule.lib.php';
 
 // Translations
-$langs->load("mymodule@mymodule");
+$langs->load('mymodule@mymodule');
 
 // Access control
 if (! $user->admin) {
@@ -42,20 +42,20 @@ if (! $user->admin) {
 /*
  * View
  */
-$page_name = "MyModuleAbout";
+$page_name = 'MyModuleAbout';
 llxHeader('', $langs->trans($page_name));
 
 // Subheader
 $linkback = '<a href="' . DOL_URL_ROOT . '/admin/modules.php">'
-    . $langs->trans("BackToModuleList") . '</a>';
-print_fiche_titre($langs->trans($page_name), $linkback);
+    . $langs->trans('BackToModuleList') . '</a>';
+print load_fiche_titre($langs->trans($page_name), $linkback);
 
 // Configuration header
 $head = mymoduleAdminPrepareHead();
 dol_fiche_head(
     $head,
     'about',
-    $langs->trans("Module100000Name"),
+    $langs->trans('Module100000Name'),
     0,
     'mymodule@mymodule'
 );
@@ -66,10 +66,9 @@ print '<div>'.$langs->trans('ATMAbout').'</div>';
 
 dol_fiche_end();
 
-print '<br><center>';
+print '<br><div class="center">';
 print '<a href="http://www.atm-consulting.fr" target="_blank"><img src="../img/ATM_logo.jpg" /></a>';
-print '</center>';
+print '</div>';
 
 llxFooter();
-
 $db->close();

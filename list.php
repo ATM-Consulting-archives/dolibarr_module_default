@@ -16,7 +16,7 @@
  */
 
 require 'config.php';
-dol_include_once('/mymodule/class/mymodule.class.php');
+dol_include_once('mymodule/class/mymodule.class.php');
 
 if(empty($user->rights->mymodule->read)) accessforbidden();
 
@@ -43,7 +43,7 @@ if ($object->isextrafieldmanaged)
  */
 
 $parameters=array();
-$reshook=$hookmanager->executeHooks('doActions',$parameters,$object);    // Note that $action and $object may have been modified by some hooks
+$reshook=$hookmanager->executeHooks('doActions', $parameters, $object);    // Note that $action and $object may have been modified by some hooks
 if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
 
 if (!GETPOST('confirmmassaction', 'alpha') && $massaction != 'presend' && $massaction != 'confirm_presend')
@@ -62,7 +62,7 @@ if (empty($reshook))
  * View
  */
 
-llxHeader('',$langs->trans('MyModuleList'),'','');
+llxHeader('', $langs->trans('MyModuleList'), '', '');
 
 //$type = GETPOST('type');
 //if (empty($user->rights->mymodule->all->read)) $type = 'mine';

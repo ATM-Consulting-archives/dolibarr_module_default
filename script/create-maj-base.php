@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*
+/**
  * Script créant et vérifiant que les champs requis s'ajoutent bien
  */
 
