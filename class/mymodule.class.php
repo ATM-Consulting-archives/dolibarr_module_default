@@ -145,6 +145,7 @@ class MyModule extends SeedObject
     {
         $this->deleteObjectLinked();
 
+        unset($this->fk_element); // avoid conflict with standard Dolibarr comportment
         return parent::delete($user);
     }
 
