@@ -24,11 +24,11 @@ MyModuleStatusValidated=Validée (à accepter)
 MyModuleStatusRefused=Refusée (fermée)
 MyModuleStatusAccepted=Acceptée (fermée)
 
-MyModuleStatusCanceledShort=Abandonnée
-MyModuleStatusDraftShort=Brouillon
-MyModuleStatusValidatedShort=Validée
-MyModuleStatusRefusedShort=Refusée
-MyModuleStatusAcceptedShort=Acceptée
+MyModuleStatusShortCanceled=Abandonnée
+MyModuleStatusShortDraft=Brouillon
+MyModuleStatusShortValidated=Validée
+MyModuleStatusShortRefused=Refusée
+MyModuleStatusShortAccepted=Acceptée
 
 # LIST
 MyModuleList=Liste MyModule
