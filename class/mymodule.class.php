@@ -50,11 +50,11 @@ class MyModule extends SeedObject
 
 	/** @var array $TStatus Array of translate key for each const */
 	public static $TStatus = array(
-		self::STATUS_CANCELED => 'MyModuleStatusCanceledShort'
-		,self::STATUS_DRAFT => 'MyModuleStatusDraftShort'
-		,self::STATUS_VALIDATED => 'MyModuleStatusValidatedShort'
-//		,self::STATUS_REFUSED => 'MyModuleStatusRefusedShort'
-//		,self::STATUS_ACCEPTED => 'MyModuleStatusAcceptedShort'
+		self::STATUS_CANCELED => 'MyModuleStatusShortCanceled'
+		,self::STATUS_DRAFT => 'MyModuleStatusShortDraft'
+		,self::STATUS_VALIDATED => 'MyModuleStatusShortValidated'
+//		,self::STATUS_REFUSED => 'MyModuleStatusShortRefused'
+//		,self::STATUS_ACCEPTED => 'MyModuleStatusShortAccepted'
 	);
 
 	/** @var string $table_element Table name in SQL */
