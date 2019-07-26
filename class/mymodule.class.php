@@ -136,10 +136,10 @@ class MyModule extends SeedObject
         ),
 
         'description' => array(
-            'type' => 'text',
+            'type' => 'text', // or html for WYSWYG
             'label' => 'Description',
             'enabled' => 1,
-            'visible' => -1, //  un bug sur la version 9.0 et 10 de Dolibarr necessite de mettre -1 pour ne pas apparaitre sur les listes au lieu de la valeur 3
+            'visible' => 'floatval(DOL_VERSION) > 10 ? 3 : -1', //  un bug sur la version 9.0 de Dolibarr necessite de mettre -1 pour ne pas apparaitre sur les listes au lieu de la valeur 3
             'position' => 60
         ),
 
@@ -175,6 +175,9 @@ class MyModule extends SeedObject
     /** @var string $label Object label */
     public $label;
 
+    /** @var string $description Object description */
+    public $description;
+
 
 
     /**
@@ -185,7 +188,7 @@ class MyModule extends SeedObject
     {
 		global $conf;
 
-		$this->db = $db;
+        parent::__construct($db);
 
 		$this->init();
 
