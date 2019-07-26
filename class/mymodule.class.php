@@ -71,14 +71,96 @@ class MyModule extends SeedObject
 
 
     public $fields = array(
-		'ref'           =>array('type'=>'varchar(50)',  'length'=>50, 'label'=>'Ref','enabled'=>1, 'visible'=>1,  'notnull'=>1, 'showoncombobox'=>1, 'index'=>1, 'position'=>10, 'searchall'=>1, 'comment'=>'Reference of object'),
-	    'entity'        =>array('type'=>'integer',      'label'=>'Entity',           'enabled'=>1, 'visible'=>0,  'default'=>1, 'notnull'=>1,  'index'=>1, 'position'=>20),
-	    'status'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>0,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>30, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Canceled')),
-	    'label'         =>array('type'=>'varchar(255)', 'label'=>'Label',            'enabled'=>1, 'visible'=>1,  'position'=>40,  'searchall'=>1, 'css'=>'minwidth200', 'help'=>'Help text', 'showoncombobox'=>1),
-		'fk_soc' 		=>array('type'=>'integer:Societe:societe/class/societe.class.php', 'label'=>'ThirdParty', 'visible'=>1, 'enabled'=>1, 'position'=>50, 'index'=>1, 'help'=>'LinkToThirparty'),
-		'description'   =>array('type'=>'text',			'label'=>'Description',		 'enabled'=>1, 'visible'=>0,  'position'=>60),
-		//'fk_user_valid' =>array('type'=>'integer',      'label'=>'UserValidation',        'enabled'=>1, 'visible'=>-1, 'position'=>512),
-		'import_key'    =>array('type'=>'varchar(14)',  'label'=>'ImportId',         'enabled'=>1, 'visible'=>-2, 'notnull'=>-1, 'index'=>0,  'position'=>1000),
+
+        'ref' => array(
+            'type' => 'varchar(50)',
+            'length' => 50,
+            'label' => 'Ref',
+            'enabled' => 1,
+            'visible' => 1,
+            'notnull' => 1,
+            'showoncombobox' => 1,
+            'index' => 1,
+            'position' => 10,
+            'searchall' => 1,
+            'comment' => 'Reference of object'
+        ),
+
+        'entity' => array(
+            'type' => 'integer',
+            'label' => 'Entity',
+            'enabled' => 1,
+            'visible' => 0,
+            'default' => 1,
+            'notnull' => 1,
+            'index' => 1,
+            'position' => 20
+        ),
+
+        'status' => array(
+            'type' => 'integer',
+            'label' => 'Status',
+            'enabled' => 1,
+            'visible' => 0,
+            'notnull' => 1,
+            'default' => 0,
+            'index' => 1,
+            'position' => 30,
+            'arrayofkeyval' => array(
+                0 => 'Draft',
+                1 => 'Active',
+                -1 => 'Canceled'
+            )
+        ),
+
+        'label' => array(
+            'type' => 'varchar(255)',
+            'label' => 'Label',
+            'enabled' => 1,
+            'visible' => 1,
+            'position' => 40,
+            'searchall' => 1,
+            'css' => 'minwidth200',
+            'help' => 'Help text',
+            'showoncombobox' => 1
+        ),
+
+        'fk_soc' => array(
+            'type' => 'integer:Societe:societe/class/societe.class.php',
+            'label' => 'ThirdParty',
+            'visible' => 1,
+            'enabled' => 1,
+            'position' => 50,
+            'index' => 1,
+            'help' => 'LinkToThirparty'
+        ),
+
+        'description' => array(
+            'type' => 'text',
+            'label' => 'Description',
+            'enabled' => 1,
+            'visible' => -1, //  un bug sur la version 9.0 et 10 de Dolibarr necessite de mettre -1 pour ne pas apparaitre sur les listes au lieu de la valeur 3
+            'position' => 60
+        ),
+
+//        'fk_user_valid' =>array(
+//            'type' => 'integer',
+//            'label' => 'UserValidation',
+//            'enabled' => 1,
+//            'visible' => -1,
+//            'position' => 512
+//        ),
+
+        'import_key' => array(
+            'type' => 'varchar(14)',
+            'label' => 'ImportId',
+            'enabled' => 1,
+            'visible' => -2,
+            'notnull' => -1,
+            'index' => 0,
+            'position' => 1000
+        ),
+
     );
 
     /** @var string $ref Object reference */
