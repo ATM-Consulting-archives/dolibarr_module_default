@@ -46,3 +46,6 @@ MyModuleRefuse=Refuser
 MyModuleReopen=Rouvrir
 MyModuleCancel=Abandonner
 MyModuleDelete=Supprimer
+
+ConfirmValidateMyModuleTitle=Confirmation de suppression
+ConfirmValidateMyModuleBody=Souhaitez-vous vraiment supprimer cette fiche MyModule %s ?
