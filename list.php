@@ -73,7 +73,9 @@ $fieldList = 't.'.implode(', t.', $keys);
 if (!empty($object->isextrafieldmanaged))
 {
     $keys = array_keys($extralabels);
-    $fieldList.= ', et.'.implode(', et.', $keys);
+	if(!empty($keys)) {
+		$fieldList .= ', et.' . implode(', et.', $keys);
+	}
 }
 
 $sql = 'SELECT '.$fieldList;
