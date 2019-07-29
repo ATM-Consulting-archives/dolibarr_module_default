@@ -46,3 +46,6 @@ MyModuleRefuse=Refuser
 MyModuleReopen=Rouvrir
 MyModuleCancel=Abandonner
 MyModuleDelete=Supprimer
+
+ConfirmDeleteMyModuleTitle=Confirmation de suppression
+ConfirmDeleteMyModuleBody=Souhaitez-vous supprimer cet élémément ?
