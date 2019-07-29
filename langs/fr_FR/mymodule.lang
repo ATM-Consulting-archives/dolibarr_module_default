@@ -47,5 +47,8 @@ MyModuleReopen=Rouvrir
 MyModuleCancel=Abandonner
 MyModuleDelete=Supprimer
 
+ConfirmValidateMyModuleTitle=Confirmation d'activation
+ConfirmValidateMyModuleBody=Souhaitez-vous vraiment activer cette fiche MyModule %s ?
+
 ConfirmDeleteMyModuleTitle=Confirmation de suppression
 ConfirmDeleteMyModuleBody=Souhaitez-vous supprimer cet élémément ?

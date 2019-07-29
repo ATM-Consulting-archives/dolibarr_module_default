@@ -15,6 +15,7 @@ MODULE_NUMBER=$2
 
 MODULE_NAME_MIN=$(echo ${MODULE_CLASS_NAME} | tr [:upper:] [:lower:])
 MODULE_NAME_UCFIRST="$(echo ${MODULE_NAME_MIN:0:1} | tr [:lower:] [:upper:])${MODULE_NAME_MIN:1}"
+MODULE_NAME_UC=$(echo ${MODULE_CLASS_NAME} | tr [:lower:] [:upper:])
 
 echo "Nom du module   : ${MODULE_NAME_MIN}"
 echo "Nom de la class : ${MODULE_CLASS_NAME}"
@@ -47,6 +48,7 @@ then
         sed -i "s/MyModule/${MODULE_CLASS_NAME}/g" ${FILENAME}
         sed -i "s/Mymodule/${MODULE_NAME_UCFIRST}/g" ${FILENAME}
         sed -i "s/mymodule/${MODULE_NAME_MIN}/g" ${FILENAME}
+        sed -i "s/MYMODULE/${MODULE_NAME_UC}/g" ${FILENAME}
         sed -i "s/100000/${MODULE_NUMBER}/g" ${FILENAME}
         sed -i "s/Copyright (C) 2019/Copyright (C) ${CURRENT_YEAR}/g" ${FILENAME}
     done

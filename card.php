@@ -22,6 +22,7 @@ dol_include_once('mymodule/class/mymodule.class.php');
 dol_include_once('mymodule/lib/mymodule.lib.php');
 
 if(empty($user->rights->mymodule->read)) accessforbidden();
+$permissiondellink = $user->rights->webhost->write;	// Used by the include of actions_dellink.inc.php
 
 $langs->load('mymodule@mymodule');
 
@@ -66,7 +67,24 @@ if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'e
 // Si vide alors le comportement n'est pas remplacé
 if (empty($reshook))
 {
-	$error = 0;
+
+    if ($cancel)
+    {
+        if (! empty($backtopage))
+        {
+            header("Location: ".$backtopage);
+            exit;
+        }
+        $action='';
+    }
+
+    // For object linked
+    include DOL_DOCUMENT_ROOT.'/core/actions_dellink.inc.php';		// Must be include, not include_once
+
+
+
+
+    $error = 0;
 	switch ($action) {
 		case 'add':
 		case 'update':
