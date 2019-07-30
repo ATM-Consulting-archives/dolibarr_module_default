@@ -246,7 +246,7 @@ class modMyModule extends DolibarrModules
 			'titre'=>$langs->trans('TopMenuMyModule'),
 			'mainmenu'=>'mymodule',
 			'leftmenu'=>'',
-			'url'=>'/mymodule/list.php',
+			'url'=>'/mymodule/mymodule_list.php',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
 			'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled.
@@ -262,7 +262,7 @@ class modMyModule extends DolibarrModules
 			'titre'=>$langs->trans('TopMenuMyModule'),
 			'mainmenu'=>'mymodule',
 			'leftmenu'=>'mymodule_left',
-			'url'=>'/mymodule/list.php',
+			'url'=>'/mymodule/mymodule_list.php',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
 			'enabled'=>'$conf->mymodule->enabled',	// Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled.
@@ -278,7 +278,7 @@ class modMyModule extends DolibarrModules
 			'titre'=>$langs->trans('LeftMenuMyModuleCreate'),
 			'mainmenu'=>'mymodule',
 			'leftmenu'=>'mymodule_left_create',
-			'url'=>'/mymodule/card.php?action=create',
+			'url'=>'/mymodule/mymodule_card.php?action=create',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
 			'enabled'=> '$conf->mymodule->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
@@ -295,7 +295,7 @@ class modMyModule extends DolibarrModules
 			'titre'=>$langs->trans('LeftMenuMyModuleList'),
 			'mainmenu'=>'mymodule',
 			'leftmenu'=>'mymodule_left_list',
-			'url'=>'/mymodule/list.php',
+			'url'=>'/mymodule/mymodule_list.php',
 			'langs'=>'mymodule@mymodule',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>100+$r,
 			'enabled'=> '$conf->mymodule->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.

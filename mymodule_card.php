@@ -35,6 +35,8 @@ $backtopage = GETPOST('backtopage', 'alpha');
 
 $object = new MyModule($db);
 
+$permissiondellink = $user->rights->webhost->write;	// Used by the include of actions_dellink.inc.php
+
 if (!empty($id) || !empty($ref)) $object->fetch($id, true, $ref);
 
 $hookmanager->initHooks(array('mymodulecard', 'globalcard'));
@@ -109,7 +111,8 @@ if (empty($reshook))
 
 			if ($error > 0)
 			{
-				$action = 'edit';
+				if (empty($object->id)) $action = 'create';
+				else $action = 'edit';
 				break;
 			}
 			
@@ -122,7 +125,7 @@ if (empty($reshook))
             }
             else
             {
-                header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+                header('Location: '.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id);
                 exit;
             }
         case 'update_extras':
@@ -146,14 +149,14 @@ if (empty($reshook))
             if ($error) $action = 'edit_extras';
             else
             {
-                header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+                header('Location: '.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id);
                 exit;
             }
             break;
 		case 'confirm_clone':
 			$object->cloneObject($user);
 			
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+			header('Location: '.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'modif':
@@ -164,19 +167,19 @@ if (empty($reshook))
 		case 'confirm_validate':
 			if (!empty($user->rights->mymodule->write)) $object->setValid($user);
 			
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+			header('Location: '.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'confirm_delete':
 			if (!empty($user->rights->mymodule->delete)) $object->delete($user);
 			
-			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
+			header('Location: '.dol_buildpath('/mymodule/mymodule_list.php', 1));
 			exit;
 
 		// link from llx_element_element
 		case 'dellink':
 			$object->deleteObjectLinked(null, '', null, '', GETPOST('dellinkid'));
-			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
+			header('Location: '.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id);
 			exit;
 
 	}
@@ -193,7 +196,7 @@ llxHeader('', $title);
 
 if ($action == 'create')
 {
-    print load_fiche_titre($langs->trans('NewMyModule'), '', 'mymodule@mymodule');
+    print load_fiche_titre($langs->trans('NewMyModule'), '', 'mymodule-title@mymodule');
 
     print '<form method="POST" action="'.$_SERVER["PHP_SELF"].'">';
     print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
@@ -271,21 +274,7 @@ else
             if (!empty($formconfirm)) print $formconfirm;
 
 
-            $linkback = '<a href="' .dol_buildpath('/mymodule/list.php', 1) . '?restore_lastsearch_values=1">' . $langs->trans('BackToList') . '</a>';
-
-            $morehtmlref='<div class="refidno">';
-            /*
-            // Ref bis
-            $morehtmlref.=$form->editfieldkey("RefBis", 'ref_client', $object->ref_client, $object, $user->rights->mymodule->write, 'string', '', 0, 1);
-            $morehtmlref.=$form->editfieldval("RefBis", 'ref_client', $object->ref_client, $object, $user->rights->mymodule->write, 'string', '', null, null, '', 1);
-            // Thirdparty
-            $morehtmlref.='<br>'.$langs->trans('ThirdParty') . ' : ' . $soc->getNomUrl(1);
-            */
-            $morehtmlref.='</div>';
-
-
-            $morehtmlstatus.=''; //$object->getLibStatut(2); // pas besoin fait doublon
-            dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref, '', 0, '', $morehtmlstatus);
+            mymoduleBannerTab($object);
 
             print '<div class="fichecenter">';
 

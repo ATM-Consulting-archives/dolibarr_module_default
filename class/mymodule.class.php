@@ -63,11 +63,29 @@ class MyModule extends SeedObject
 	/** @var string $element Name of the element (tip for better integration in Dolibarr: this value should be the reflection of the class name with ucfirst() function) */
 	public $element = 'mymodule';
 
+    /** @var string $picto a picture file in [@...]/img/object_[...@].png  */
+    public $picto = 'mymodule@mymodule';
+
 	/** @var int $isextrafieldmanaged Enable the fictionalises of extrafields */
     public $isextrafieldmanaged = 1;
 
     /** @var int $ismultientitymanaged 0=No test on entity, 1=Test with field entity, 2=Test with link by societe */
     public $ismultientitymanaged = 1;
+
+    /** @var string $ref Object reference */
+	public $ref;
+
+    /** @var int $entity Object entity */
+	public $entity;
+
+	/** @var int $status Object status */
+	public $status;
+
+    /** @var string $label Object label */
+    public $label;
+
+    /** @var string $description Object description */
+    public $description;
 
     /**
      *  'type' is the field format.
@@ -126,11 +144,24 @@ class MyModule extends SeedObject
             'index' => 1,
             'position' => 30,
             'arrayofkeyval' => array(
-                0 => 'Draft',
-                1 => 'Active',
-                -1 => 'Canceled'
+		        self::STATUS_CANCELED => 'MyModuleStatusShortCanceled'
+		        ,self::STATUS_DRAFT => 'MyModuleStatusShortDraft'
+		        ,self::STATUS_VALIDATED => 'MyModuleStatusShortValidated'
+        //		,self::STATUS_REFUSED => 'MyModuleStatusShortRefused'
+        //		,self::STATUS_ACCEPTED => 'MyModuleStatusShortAccepted'
             )
         ),
+
+// exemple of dictionary sell list
+//        'fk_mymodule_type' => array(
+//            'type' => 'sellist:c_mymodule_type:label:rowid::active=1',
+//            'label' => 'Type',
+//            'visible' => 1,
+//            'enabled' => 1,
+//            'position' => 50,
+//            'index' => 1,
+//            'help' => 'MyModuleDicionaryTypeHelp'
+//        ),
 
         'label' => array(
             'type' => 'varchar(255)',
@@ -182,20 +213,7 @@ class MyModule extends SeedObject
 
     );
 
-    /** @var string $ref Object reference */
-	public $ref;
 
-    /** @var int $entity Object entity */
-	public $entity;
-
-	/** @var int $status Object status */
-	public $status;
-
-    /** @var string $label Object label */
-    public $label;
-
-    /** @var string $description Object description */
-    public $description;
 
 
 
@@ -293,7 +311,14 @@ class MyModule extends SeedObject
             $this->status = self::STATUS_DRAFT;
             $this->withChild = false;
 
-            return $this->update($user);
+            $ret = $this->update($user);
+            if($ret  > 0 )
+            {
+                //$eventLabel = $langs->transnoentities(__CLASS__.__METHOD__.'Event', $this->ref );
+                //$this->addActionComEvent($eventLabel);
+            }
+            return $ret;
+
         }
 
         return 0;
@@ -313,7 +338,13 @@ class MyModule extends SeedObject
             $this->status = self::STATUS_VALIDATED;
             $this->withChild = false;
 
-            return $this->update($user);
+            $ret = $this->update($user);
+            if($ret  > 0 )
+            {
+                //$eventLabel = $langs->transnoentities(__CLASS__.__METHOD__.'Event', $this->ref );
+                //$this->addActionComEvent($eventLabel);
+            }
+            return $ret;
         }
 
         return 0;
@@ -330,9 +361,15 @@ class MyModule extends SeedObject
             $this->status = self::STATUS_ACCEPTED;
             $this->withChild = false;
 
-            return $this->update($user);
+       
+            $ret = $this->update($user);
+            if($ret  > 0 )
+            {
+                //$eventLabel = $langs->transnoentities(__CLASS__.__METHOD__.'Event', $this->ref );
+                //$this->addActionComEvent($eventLabel);
+            }
+            return $ret;
         }
-
         return 0;
     }
 
@@ -347,7 +384,13 @@ class MyModule extends SeedObject
             $this->status = self::STATUS_REFUSED;
             $this->withChild = false;
 
-            return $this->update($user);
+            $ret = $this->update($user);
+            if($ret  > 0 )
+            {
+                //$eventLabel = $langs->transnoentities(__CLASS__.__METHOD__.'Event', $this->ref );
+                //$this->addActionComEvent($eventLabel);
+            }
+            return $ret;
         }
 
         return 0;
@@ -364,7 +407,13 @@ class MyModule extends SeedObject
             $this->status = self::STATUS_VALIDATED;
             $this->withChild = false;
 
-            return $this->update($user);
+            $ret = $this->update($user);
+            if($ret  > 0 )
+            {
+                //$eventLabel = $langs->transnoentities(__CLASS__.__METHOD__.'Event', $this->ref );
+                //$this->addActionComEvent($eventLabel);
+            }
+            return $ret;
         }
 
         return 0;
@@ -385,19 +434,47 @@ class MyModule extends SeedObject
         if (! empty($this->ref)) $label.= '<br><b>'.$langs->trans('Ref').':</b> '.$this->ref;
 
         $linkclose = '" title="'.dol_escape_htmltag($label, 1).'" class="classfortooltip">';
-        $link = '<a href="'.dol_buildpath('/mymodule/card.php', 1).'?id='.$this->id.urlencode($moreparams).$linkclose;
+        $link = '<a href="'.dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$this->id.urlencode($moreparams).$linkclose;
 
         $linkend='</a>';
 
-        $picto='generic';
-//        $picto='mymodule@mymodule';
 
-        if ($withpicto) $result.=($link.img_object($label, $picto, 'class="classfortooltip"').$linkend);
+        if ($withpicto) $result.=($link.img_object($label, $this->picto, 'class="paddingright classfortooltip valignmiddle"').$linkend);
         if ($withpicto && $withpicto != 2) $result.=' ';
 
         $result.=$link.$this->ref.$linkend;
 
         return $result;
+    }
+
+
+    function addActionComEvent($label, $note = ''){
+        global $user;
+
+        $object = new ActionComm($this->db);
+        $object->code = 'AC_OTH_AUTO';
+        $object->type_code = $object->code; // if missing there is an error
+        $object->label = $label;
+        $object->note_private = $note;
+
+        $object->datep = time();
+
+        $object->fk_element = $this->id;    // Id of record
+        $object->elementid = 0;    // Id of record alternative for API
+        $object->elementtype = $this->element;   // Type of record. This if property ->element of object linked to.
+
+        $object->socid = $this->fk_soc;
+        $object->userownerid = $user->id;
+        $object->percentage = -1;
+
+
+        $newEventId = $object->create($user);
+        if($newEventId < 1)
+        {
+            dol_syslog(__CLASS__ . ":".__METHOD__." launched by " . __FILE__ . ". id=" . $this->id.' error code : '.$object->error, LOG_ERR);
+            return -1;
+        }
+
     }
 
     /**
@@ -462,10 +539,63 @@ class MyModule extends SeedObject
         
         return $res;
     }
+
+    /**
+     * Return HTML string to put an input field into a page
+     * Code very similar with showInputField of extra fields
+     *
+     * @param  array   		$val	       Array of properties for field to show
+     * @param  string  		$key           Key of attribute
+     * @param  string  		$value         Preselected value to show (for date type it must be in timestamp format, for amount or price it must be a php numeric value)
+     * @param  string  		$moreparam     To add more parameters on html input tag
+     * @param  string  		$keysuffix     Prefix string to add into name and id of field (can be used to avoid duplicate names)
+     * @param  string  		$keyprefix     Suffix string to add into name and id of field (can be used to avoid duplicate names)
+     * @param  string|int	$morecss       Value for css to define style/length of field. May also be a numeric.
+     * @return string
+     */
+    public function showInputField($val, $key, $value, $moreparam = '', $keysuffix = '', $keyprefix = '', $morecss = 0)
+    {
+        global $conf, $langs, $form;
+
+        $out = parent::showInputField($val, $key, $value, $moreparam, $keysuffix, $keyprefix, $morecss);
+
+        return $out;
+}
+
+    /**
+     * Return HTML string to show a field into a page
+     * Code very similar with showOutputField of extra fields
+     *
+     * @param  array   $val		       Array of properties of field to show
+     * @param  string  $key            Key of attribute
+     * @param  string  $value          Preselected value to show (for date type it must be in timestamp format, for amount or price it must be a php numeric value)
+     * @param  string  $moreparam      To add more parametes on html input tag
+     * @param  string  $keysuffix      Prefix string to add into name and id of field (can be used to avoid duplicate names)
+     * @param  string  $keyprefix      Suffix string to add into name and id of field (can be used to avoid duplicate names)
+     * @param  mixed   $morecss        Value for css to define size. May also be a numeric.
+     * @return string
+     */
+    public function showOutputField($val, $key, $value, $moreparam = '', $keysuffix = '', $keyprefix = '', $morecss = '')
+    {
+        global $conf, $langs, $form;
+
+        // TODO : quite a fixer autant le faire dans le seed object
+        // patch for dolibarr 9.0 show PR : https://github.com/Dolibarr/dolibarr/pull/11571
+        if(preg_match('/^sellist:(.*):(.*):(.*):(.*)/i', $val['type'], $reg)) {
+            $val['param']['options'] = array($reg[1] . ':' . $reg[2] . ':' . $reg[3] . ':' . $reg[4] => 'N');
+            $val['type'] = 'sellist';
+        }
+
+        $out = parent::showOutputField($val, $key, $value, $moreparam, $keysuffix, $keyprefix, $morecss);
+
+
+        return $out;
+    }
+
 }
 
 
-//class MyModuleDet extends SeedObject
+//class WebHostDet extends SeedObject
 //{
 //    public $table_element = 'mymoduledet';
 //

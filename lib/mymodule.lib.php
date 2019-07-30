@@ -71,7 +71,7 @@ function mymodule_prepare_head(MyModule $object)
     global $langs, $conf;
     $h = 0;
     $head = array();
-    $head[$h][0] = dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id;
+    $head[$h][0] = dol_buildpath('/mymodule/mymodule_card.php', 1).'?id='.$object->id;
     $head[$h][1] = $langs->trans("MyModuleCard");
     $head[$h][2] = 'card';
     $h++;
@@ -135,3 +135,47 @@ function getFormConfirmMyModule($form, $object, $action)
 
     return $formconfirm;
 }
+
+
+function mymoduleBannerTab(WebHost $object){
+    global $langs;
+
+    $linkback = '<a href="' .dol_buildpath('/mymodule/mymodule_list.php', 1) . '?restore_lastsearch_values=1">' . $langs->trans('BackToList') . '</a>';
+
+
+    $morehtmlref = '';
+
+    if(!empty($object->label)){
+        $morehtmlref.=' : '.$object->label;
+    }
+
+    $morehtmlref.='<div class="refidno">';
+
+    // Ref bis
+    /*$morehtmlref.=$form->editfieldkey("RefBis", 'ref_client', $object->ref_client, $object, $user->rights->webhost->write, 'string', '', 0, 1);
+    $morehtmlref.=$form->editfieldval("RefBis", 'ref_client', $object->ref_client, $object, $user->rights->webhost->write, 'string', '', null, null, '', 1);
+    */
+
+    // Display a field output
+    //$fieldKey = 'your object field';
+    //$morehtmlref.= '<strong>'.$object->showOutputField($object->fields[$fieldKey], $fieldKey, $object->{$fieldKey}, '', '', '', 0).'</strong>';
+
+
+    /*if(!empty($object->fk_soc))
+    {
+        $soc = new Societe($object->db);
+        if($soc->fetch($object->fk_soc)>0)
+        {
+            // Thirdparty
+            $morehtmlref.='<br>'.$langs->trans('ThirdParty') . ' : ' . $soc->getNomUrl(1);
+        }
+    }*/
+
+
+    $morehtmlref.='</div>';
+
+
+    $morehtmlstatus=''; //$object->getLibStatut(2); // pas besoin fait doublon
+    dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref, '', 0, '', $morehtmlstatus);
+}
+
