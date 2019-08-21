@@ -30,6 +30,7 @@ then
 
     rm -rf .git
     rm new_module.sh
+    rm rename_module.sh
     [[ -d .settings ]] && rm -rf .settings
     [[ -d nbproject ]] && rm -rf nbproject
     [[ -f .project ]] && rm .project
