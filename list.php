@@ -103,7 +103,8 @@ $sql.=$hookmanager->resPrint;
 
 $formcore = new TFormCore($_SERVER['PHP_SELF'], 'form_list_mymodule', 'GET');
 
-$nbLine = !empty($user->conf->MAIN_SIZE_LISTE_LIMIT) ? $user->conf->MAIN_SIZE_LISTE_LIMIT : $conf->global->MAIN_SIZE_LISTE_LIMIT;
+$nbLine = GETPOST('limit');
+if (empty($nbLine)) $nbLine = !empty($user->conf->MAIN_SIZE_LISTE_LIMIT) ? $user->conf->MAIN_SIZE_LISTE_LIMIT : $conf->global->MAIN_SIZE_LISTE_LIMIT;
 
 $r = new Listview($db, 'mymodule');
 echo $r->render($sql, array(
