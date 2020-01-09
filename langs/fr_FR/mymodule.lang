@@ -8,6 +8,7 @@ MyModuleAbout = A propos du module MyModule
 
 MyModule=MyModule
 AbricotNeedUpdate=Le module abricot doit être mis à jour
+LinkToThirparty=Lien vers le tiers
 
 # SETUP
 ParamLabel=Nom du paramètre
