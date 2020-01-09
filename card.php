@@ -22,7 +22,6 @@ dol_include_once('mymodule/class/mymodule.class.php');
 dol_include_once('mymodule/lib/mymodule.lib.php');
 
 if(empty($user->rights->mymodule->read)) accessforbidden();
-$permissiondellink = $user->rights->webhost->write;	// Used by the include of actions_dellink.inc.php
 
 $langs->load('mymodule@mymodule');
 
@@ -104,7 +103,7 @@ if (empty($reshook))
 //				$error++;
 //				setEventMessages($langs->trans('warning_date_must_be_fill'), array(), 'warnings');
 //			}
-			
+
 			// ...
 
 			if ($error > 0)
@@ -112,7 +111,7 @@ if (empty($reshook))
 				$action = 'edit';
 				break;
 			}
-			
+
 			$res = $object->save($user);
             if ($res < 0)
             {
@@ -152,24 +151,24 @@ if (empty($reshook))
             break;
 		case 'confirm_clone':
 			$object->cloneObject($user);
-			
+
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'modif':
 		case 'reopen':
 			if (!empty($user->rights->mymodule->write)) $object->setDraft($user);
-				
+
 			break;
 		case 'confirm_validate':
 			if (!empty($user->rights->mymodule->write)) $object->setValid($user);
-			
+
 			header('Location: '.dol_buildpath('/mymodule/card.php', 1).'?id='.$object->id);
 			exit;
 
 		case 'confirm_delete':
 			if (!empty($user->rights->mymodule->delete)) $object->delete($user);
-			
+
 			header('Location: '.dol_buildpath('/mymodule/list.php', 1));
 			exit;
 
