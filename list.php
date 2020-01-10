@@ -54,7 +54,7 @@ if (!GETPOST('confirmmassaction', 'alpha') && $massaction != 'presend' && $massa
 
 if (empty($reshook))
 {
-	// do action from GETPOST ... 
+	// do action from GETPOST ...
 }
 
 
@@ -106,25 +106,25 @@ $formcore = new TFormCore($_SERVER['PHP_SELF'], 'form_list_mymodule', 'GET');
 $nbLine = GETPOST('limit');
 if (empty($nbLine)) $nbLine = !empty($user->conf->MAIN_SIZE_LISTE_LIMIT) ? $user->conf->MAIN_SIZE_LISTE_LIMIT : $conf->global->MAIN_SIZE_LISTE_LIMIT;
 
-$r = new Listview($db, 'mymodule');
-echo $r->render($sql, array(
+// List configuration
+$listViewConfig = array(
 	'view_type' => 'list' // default = [list], [raw], [chart]
-    ,'allow-fields-select' => true
+	,'allow-fields-select' => true
 	,'limit'=>array(
 		'nbLine' => $nbLine
 	)
-    ,'list' => array(
-        'title' => $langs->trans('MyModuleList')
-        ,'image' => 'title_generic.png'
-        ,'picto_precedent' => '<'
-        ,'picto_suivant' => '>'
-        ,'noheader' => 0
-        ,'messageNothing' => $langs->trans('NoMyModule')
-        ,'picto_search' => img_picto('', 'search.png', '', 0)
-        ,'massactions'=>array(
-            'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
-        )
-    )
+	,'list' => array(
+		'title' => $langs->trans('MyModuleList')
+		,'image' => 'title_generic.png'
+		,'picto_precedent' => '<'
+		,'picto_suivant' => '>'
+		,'noheader' => 0
+		,'messageNothing' => $langs->trans('NoMyModule')
+		,'picto_search' => img_picto('', 'search.png', '', 0)
+		,'massactions'=>array(
+			'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
+		)
+	)
 	,'subQuery' => array()
 	,'link' => array()
 	,'type' => array(
@@ -147,13 +147,25 @@ echo $r->render($sql, array(
 		,'label' => $langs->trans('Label')
 		,'date_creation' => $langs->trans('DateCre')
 		,'tms' => $langs->trans('DateMaj')
-
 	)
 	,'eval'=>array(
 		'ref' => '_getObjectNomUrl(\'@rowid@\', \'@val@\')'
 //		,'fk_user' => '_getUserNomUrl(@val@)' // Si on a un fk_user dans notre requête
 	)
-));
+);
+
+$r = new Listview($db, 'mymodule');
+
+// Change view from hooks
+$parameters=array(  'listViewConfig' => $listViewConfig);
+$reshook=$hookmanager->executeHooks('listViewConfig',$parameters,$r);    // Note that $action and $object may have been modified by hook
+if ($reshook < 0) setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
+if ($reshook>0)
+{
+	$listViewConfig = $hookmanager->resArray;
+}
+
+echo $r->render($sql, $listViewConfig);
 
 $parameters=array('sql'=>$sql);
 $reshook=$hookmanager->executeHooks('printFieldListFooter', $parameters, $object);    // Note that $action and $object may have been modified by hook
