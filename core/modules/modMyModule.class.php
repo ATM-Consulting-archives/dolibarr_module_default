@@ -44,10 +44,10 @@ class modMyModule extends DolibarrModules
 
 		$this->editor_name = 'ATM-Consulting';
 		$this->editor_url = 'https://www.atm-consulting.fr';
-		
+
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero = 100000; // 104000 to 104999 for ATM CONSULTING
+		$this->numero = 1000000; // 104000 to 104999 for ATM CONSULTING
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'mymodule';
 
@@ -68,7 +68,7 @@ class modMyModule extends DolibarrModules
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
 		$this->picto='mymodule@mymodule';
-		
+
 		// Defined all module parts (triggers, login, substitutions, menus, css, etc...)
 		// for default path (eg: /mymodule/core/xxxxx) (0=disable, 1=enable)
 		// for specific path of parts (eg: /mymodule/core/modules/barcode)
@@ -176,28 +176,28 @@ class modMyModule extends DolibarrModules
 		// Example:
 		// $this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
 		// $this->rights[$r][1] = 'Permision label';	// Permission label
-		// $this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		// $this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		// $this->rights[$r][4] = 'level1';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		// $this->rights[$r][5] = 'level2';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		// $r++;
 /*
 		$this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
 		$this->rights[$r][1] = 'mymodule_read';	// Permission label
-		$this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		$this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		$this->rights[$r][4] = 'read';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
-		
+
 		$this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
 		$this->rights[$r][1] = 'mymodule_write';	// Permission label
-		$this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		$this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		$this->rights[$r][4] = 'write';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
 
 		$this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
 		$this->rights[$r][1] = 'mymodule_delete';	// Permission label
-		$this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		$this->rights[$r][3] = 0; 					// Permission by default for new user (0/1)
 		$this->rights[$r][4] = 'delete';		    // In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
@@ -238,7 +238,7 @@ class modMyModule extends DolibarrModules
 		//							'target'=>'',
 		//							'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		// $r++;
-		
+
 /*
 		$this->menu[$r]=array(
 			'fk_menu'=>0,			                // Put 0 if this is a top menu
@@ -305,7 +305,7 @@ class modMyModule extends DolibarrModules
 		);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
 */
-		
+
 		// Exports
 		$r=1;
 
@@ -334,13 +334,16 @@ class modMyModule extends DolibarrModules
 	 */
 	public function init($options = '')
 	{
+		global $langs;
 		$sql = array();
-		
+
 		define('INC_FROM_DOLIBARR', true);
 
 		require dol_buildpath('/mymodule/script/create-maj-base.php');
 
 		$result=$this->_load_tables('/mymodule/sql/');
+
+		setEventMessage('MyModuleNewRightsDefinedCheckUserRights', 'warnings');
 
 		return $this->_init($sql, $options);
 	}

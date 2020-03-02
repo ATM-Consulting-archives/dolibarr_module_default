@@ -10,6 +10,9 @@ MyModule=MyModule
 AbricotNeedUpdate=Le module abricot doit être mis à jour
 LinkToThirparty=Lien vers le tiers
 
+# INIT
+MyModuleNewRightsDefinedCheckUserRights=Ce module utilise ces propres droits utilisateurs, si cela n'est pas déjà fait, vérifier les droits.
+
 # SETUP
 ParamLabel=Nom du paramètre
 ParamDesc=Une description si besoin
