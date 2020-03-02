@@ -61,7 +61,7 @@ class mymodulebox extends ModeleBoxes
 
         $this->max = $max;
 
-        //include_once DOL_DOCUMENT_ROOT . "/mymodule/class/mymodule.class.php";
+        // dol_include_once('/mymodule/class/mymodule.class.php');
 
         $text = $langs->trans("MyBoxDescription", $max);
         $this->info_box_head = array(

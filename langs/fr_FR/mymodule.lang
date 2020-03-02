@@ -8,6 +8,7 @@ MyModuleAbout = A propos du module MyModule
 
 MyModule=MyModule
 AbricotNeedUpdate=Le module abricot doit être mis à jour
+LinkToThirparty=Lien vers le tiers
 
 # SETUP
 ParamLabel=Nom du paramètre
@@ -51,4 +52,4 @@ ConfirmValidateMyModuleTitle=Confirmation d'activation
 ConfirmValidateMyModuleBody=Souhaitez-vous vraiment activer cette fiche MyModule %s ?
 
 ConfirmDeleteMyModuleTitle=Confirmation de suppression
-ConfirmDeleteMyModuleBody=Souhaitez-vous supprimer cet élémément ?
+ConfirmDeleteMyModuleBody=Souhaitez-vous vraiment supprimer cette fiche MyModule %s ?
