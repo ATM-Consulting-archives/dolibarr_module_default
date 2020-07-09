@@ -124,6 +124,7 @@ $listViewConfig = array(
 		,'massactions'=>array(
 			'yourmassactioncode'  => $langs->trans('YourMassActionLabel')
 		)
+		,'selected' => $toselect
 	)
 	,'subQuery' => array()
 	,'link' => array()
