@@ -32,10 +32,10 @@
 /**
  * Trigger class
  */
-class InterfaceMyModuletrigger
+class InterfaceMyModuletrigger extends DolibarrTriggers
 {
 
-    private $db;
+	protected $db;
 
     /**
      * Constructor
